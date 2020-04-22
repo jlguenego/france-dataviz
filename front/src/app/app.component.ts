@@ -9,11 +9,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class AppComponent {
   f = new FormGroup({
     csvFilename: new FormControl(
-      'http://jlg-consulting.com/toto/caracteristiques-2017.csv',
+      '',
       [Validators.required]
     ),
   });
-  csvFilename = 'http://jlg-consulting.com/toto/caracteristiques-2017.csv';
+  csvFilename = './assets/xxx_clients.csv';
 
   submit() {
     console.log('this.f.value.csvFilename: ', this.f.value.csvFilename);

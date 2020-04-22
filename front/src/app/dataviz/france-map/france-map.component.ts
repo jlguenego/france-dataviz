@@ -17,14 +17,14 @@ import * as d3 from 'd3';
   styleUrls: ['./france-map.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FranceMapComponent implements OnChanges, OnInit{
+export class FranceMapComponent implements OnChanges, OnInit {
   map: L.Map;
   svg: any;
   data: any[];
   isInitialized = false;
+  label = '';
 
-  @Input() csvFilename =
-    'http://jlg-consulting.com/toto/caracteristiques-2017.csv';
+  @Input() csvFilename: string;
 
   constructor(private elt: ElementRef) {}
 
@@ -32,15 +32,17 @@ export class FranceMapComponent implements OnChanges, OnInit{
     this.refresh();
   }
 
-
-
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges this.csvFilename: ', this.csvFilename);
     this.refresh();
   }
 
   async init() {
-    this.map = L.map(this.elt.nativeElement).setView([46.9, 1], 6);
+    this.map = L.map(
+      (this.elt.nativeElement as HTMLElement).querySelector(
+        '.leaflet-map'
+      ) as HTMLElement
+    ).setView([46.9, 1], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -65,7 +67,7 @@ export class FranceMapComponent implements OnChanges, OnInit{
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
       this.data.forEach(
-        (d: any) => (d.LatLng = new L.LatLng(+d.lat / 100000, +d.long / 100000))
+        (d: any) => (d.LatLng = new L.LatLng(+d.latitude, +d.longitude))
       );
 
       console.log('this.data', this.data);
@@ -81,7 +83,11 @@ export class FranceMapComponent implements OnChanges, OnInit{
           .style('stroke', 'black')
           .style('opacity', 0.6)
           .style('fill', 'red')
-          .attr('r', 5);
+          .attr('r', 15)
+          .attr('pointer-events', 'visible')
+          .on('mouseover', (d, i, array) => {
+            this.label = d.label;
+          });
 
         feature.exit().remove();
 
