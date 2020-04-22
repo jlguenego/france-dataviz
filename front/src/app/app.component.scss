@@ -23,6 +23,12 @@
     }
   }
 
+  main {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
   footer {
     background: #eee;
     display: flex;

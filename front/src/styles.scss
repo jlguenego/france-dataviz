@@ -12,3 +12,60 @@ a {
     text-decoration: underline;
   }
 }
+
+input {
+  width: 100%;
+  padding: 0.5em 1em;
+  border: 0.1em solid #eee;
+}
+
+button {
+  padding: 0.5em 1em;
+  border: 0.1em solid #eee;
+  background: #eee;
+
+  &:not(:disabled) {
+    cursor: pointer;
+    &:hover {
+      border-color: #ddd;
+      background: #ddd;
+    }
+    &:active {
+      border-color: #ccc;
+      background: #ccc;
+    }
+
+    &.primary {
+      border-color: #333;
+      background: #333;
+      color: white;
+      &:hover {
+        border-color: #444;
+        background: #444;
+      }
+      &:active {
+        border-color: #555;
+        background: #555;
+      }
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  max-width: 40em;
+  width: 100%;
+
+  > label {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+  }
+
+  > button {
+    margin-top: 1em;
+  }
+}
