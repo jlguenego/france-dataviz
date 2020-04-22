@@ -16,6 +16,7 @@ export class AppComponent {
   csvFilename = 'http://jlg-consulting.com/toto/caracteristiques-2017.csv';
 
   submit() {
+    console.log('this.f.value.csvFilename: ', this.f.value.csvFilename);
     this.csvFilename = this.f.value.csvFilename;
   }
 }
