@@ -87,6 +87,9 @@ export class FranceMapComponent implements OnChanges, OnInit {
           .attr('pointer-events', 'visible')
           .on('mouseover', (d, i, array) => {
             this.label = d.label;
+          })
+          .on('touchstart', (d, i, array) => {
+            this.label = d.label;
           });
 
         feature.exit().remove();
