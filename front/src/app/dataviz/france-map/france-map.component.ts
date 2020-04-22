@@ -67,7 +67,11 @@ export class FranceMapComponent implements OnChanges, OnInit {
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
       this.data.forEach(
-        (d: any) => (d.LatLng = new L.LatLng(+d.latitude, +d.longitude))
+        (d: any) =>
+          (d.LatLng = new L.LatLng(
+            (+d.latitude) + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000),
+            (+d.longitude) + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
+          ))
       );
 
       console.log('this.data', this.data);
