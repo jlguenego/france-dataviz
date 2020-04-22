@@ -2,6 +2,12 @@
 @import "../node_modules/normalize.css/normalize.css";
 @import "../node_modules/leaflet/dist/leaflet.css";
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -15,6 +21,7 @@ a {
 }
 
 input {
+  display: flex;
   width: 100%;
   padding: 0.5em 1em;
   border: 0.1em solid #eee;

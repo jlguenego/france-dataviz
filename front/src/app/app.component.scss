@@ -27,6 +27,20 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    padding: 0.3em;
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      flex-flow: row;
+      margin-bottom: 1em;
+      align-items: flex-end;
+      button {
+        margin-left: 0.5em;
+      }
+    }
   }
 
   footer {
