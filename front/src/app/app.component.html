@@ -6,17 +6,8 @@
 </header>
 <main>
   <h1>Data visualization on France map</h1>
-  <form [formGroup]="f" (ngSubmit)="submit()">
-    <label>
-      <div
-        title="The CSV must have column: latitude, longitude, label. Warning: the URL must allow CORS"
-      >
-        CSV file url
-      </div>
-      <input type="text" formControlName="csvFilename" />
-    </label>
-    <button type="submit" class="primary">Visualise</button>
-  </form>
+
+  <input type="file" formControlName="csvFilename" />
 
   <app-france-map [csvFilename]="csvFilename"></app-france-map>
 </main>
