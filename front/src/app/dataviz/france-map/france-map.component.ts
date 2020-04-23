@@ -38,6 +38,7 @@ export class FranceMapComponent implements OnChanges, OnInit {
   }
 
   async init() {
+    console.log('init');
     this.map = L.map(
       (this.elt.nativeElement as HTMLElement).querySelector(
         '.leaflet-map'
@@ -54,6 +55,7 @@ export class FranceMapComponent implements OnChanges, OnInit {
   }
 
   async refresh() {
+    console.log('refresh');
     try {
       if (!this.isInitialized) {
         this.init();
@@ -61,7 +63,11 @@ export class FranceMapComponent implements OnChanges, OnInit {
       }
 
       console.log('this.csvFilename: ', this.csvFilename);
-      const csvData = await d3.csv(this.csvFilename);
+      const csvContent = localStorage.getItem('current-csv-content');
+      if (!csvContent) {
+        return;
+      }
+      const csvData = d3.csvParse(csvContent);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
@@ -69,12 +75,12 @@ export class FranceMapComponent implements OnChanges, OnInit {
       this.data.forEach(
         (d: any) =>
           (d.LatLng = new L.LatLng(
-            (+d.latitude) + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000),
-            (+d.longitude) + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
+            +d.latitude +
+              0.01 * (Math.floor(Math.random() * 1000000) / 1000000),
+            +d.longitude +
+              0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
           ))
       );
-
-      console.log('this.data', this.data);
 
       const update = () => {
         console.log('update');
@@ -90,11 +96,13 @@ export class FranceMapComponent implements OnChanges, OnInit {
           .attr('r', 15)
           .attr('pointer-events', 'visible')
           .on('mouseover', (d, i, array) => {
-            this.label = d.label;
-          })
-          .on('touchstart', (d, i, array) => {
+            console.log('d: ', d);
+
             this.label = d.label;
           });
+          // .on('touchstart', (d, i, array) => {
+          //   this.label = d.label;
+          // });
 
         feature.exit().remove();
 
