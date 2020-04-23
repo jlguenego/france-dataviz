@@ -75,7 +75,8 @@ export class FranceMapComponent implements OnChanges, OnInit {
       }
       // filter comment.
       const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
-      const csvData = d3.csvParse(filteredContent);
+      const filterEmptyLines = filteredContent.replace(/^[\r\n]+/gm, '\n');
+      const csvData = d3.csvParse(filterEmptyLines);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
@@ -119,10 +120,11 @@ export class FranceMapComponent implements OnChanges, OnInit {
           .style('fill', 'red')
           .attr('r', 15)
           .attr('pointer-events', 'visible')
-          .on('mouseover', (d, i, array) => {
-            console.log('d: ', d);
-
+          .on('mouseenter', (d, i, array) => {
             this.label = d.label;
+          })
+          .on('mouseleave', (d, i, array) => {
+            this.label = '';
           })
           .on('touchstart', (d, i, array) => {
             this.label = d.label;
