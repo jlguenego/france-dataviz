@@ -23,14 +23,17 @@ export class FranceMapComponent implements OnChanges, OnInit {
   data: any[];
   isInitialized = false;
   label = '';
+  zipcodes: d3.DSVRowArray<string>;
 
   @Input() csvFilename: string;
 
   constructor(private elt: ElementRef) {}
 
-  ngOnInit(): void {
-    this.refresh();
+  async loadZipcodeLatLng() {
+    this.zipcodes = await d3.csv('./assets/zipcode.csv');
   }
+
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges this.csvFilename: ', this.csvFilename);
@@ -52,13 +55,16 @@ export class FranceMapComponent implements OnChanges, OnInit {
 
     this.svg = L.svg();
     this.map.addLayer(this.svg);
+
+    await this.loadZipcodeLatLng();
+    await this.loadDefaultFile();
   }
 
   async refresh() {
     console.log('refresh');
     try {
       if (!this.isInitialized) {
-        this.init();
+        await this.init();
         this.isInitialized = true;
       }
 
@@ -67,25 +73,43 @@ export class FranceMapComponent implements OnChanges, OnInit {
       if (!csvContent) {
         return;
       }
-      const csvData = d3.csvParse(csvContent);
+      // filter comment.
+      const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
+      const csvData = d3.csvParse(filteredContent);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
-      this.data.forEach(
-        (d: any) =>
-          (d.LatLng = new L.LatLng(
-            +d.latitude +
-              0.01 * (Math.floor(Math.random() * 1000000) / 1000000),
-            +d.longitude +
-              0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
-          ))
-      );
+      this.data.forEach((d: any) => {
+        if (!('latitude' in d)) {
+          console.log('latitude not found in d', d);
+          const place = this.zipcodes.find(
+            (place) => place.zipcode === d.zipcode
+          );
+          console.log('place: ', place);
+          d.latitude = place.latitude;
+          d.longitude = place.longitude;
+        }
+        d.LatLng = new L.LatLng(
+          +d.latitude + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000),
+          +d.longitude + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
+        );
+      });
 
       const update = () => {
         console.log('update');
 
         const feature = g.selectAll('circle').data(this.data);
+
+        const transform = (d: any) => {
+          return (
+            'translate(' +
+            this.map.latLngToLayerPoint(d.LatLng).x +
+            ',' +
+            this.map.latLngToLayerPoint(d.LatLng).y +
+            ')'
+          );
+        };
 
         feature
           .enter()
@@ -99,22 +123,15 @@ export class FranceMapComponent implements OnChanges, OnInit {
             console.log('d: ', d);
 
             this.label = d.label;
-          });
-          // .on('touchstart', (d, i, array) => {
-          //   this.label = d.label;
-          // });
+          })
+          .on('touchstart', (d, i, array) => {
+            this.label = d.label;
+          })
+          .attr('transform', transform);
 
         feature.exit().remove();
 
-        feature.attr('transform', (d: any) => {
-          return (
-            'translate(' +
-            this.map.latLngToLayerPoint(d.LatLng).x +
-            ',' +
-            this.map.latLngToLayerPoint(d.LatLng).y +
-            ')'
-          );
-        });
+        feature.attr('transform', transform);
       };
 
       this.map.on('zoomend', () => {
@@ -131,5 +148,13 @@ export class FranceMapComponent implements OnChanges, OnInit {
       }
       console.log('error: ', error);
     }
+  }
+
+  async loadDefaultFile() {
+    const response = await fetch('./assets/jlg_consulting_france_clients.csv');
+    const content = await response.text();
+    console.log('content: ', content);
+
+    localStorage.setItem('current-csv-content', content);
   }
 }

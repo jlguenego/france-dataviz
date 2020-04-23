@@ -9,7 +9,8 @@ export class AppComponent implements OnInit {
   csvFilename = './assets/xxx_clients.csv';
   constructor(private elt: ElementRef) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   onChange() {
     console.log('onChange');
