@@ -9,12 +9,17 @@ app-france-map {
     // align-items: center;
     background: #333;
     color: white;
-    padding: 0.5em 0em;
+    padding: 0;
     .title {
-      padding: 0 0.3em;
+      padding: 0.5em 0.3em;
     }
     .label {
-      padding: 0 0.3em;
+      flex-grow: 1;
+      background: #444;
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
