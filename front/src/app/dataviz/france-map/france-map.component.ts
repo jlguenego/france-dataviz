@@ -23,7 +23,7 @@ export class FranceMapComponent implements OnChanges, OnInit {
   data: any[];
   isInitialized = false;
   label = '';
-  zipcodes: d3.DSVRowArray<string>;
+  zipcodes: Array<d3.DSVRowString<string>>;
   title = '';
 
   @Input() csvFilename: string;
@@ -31,7 +31,11 @@ export class FranceMapComponent implements OnChanges, OnInit {
   constructor(private elt: ElementRef) {}
 
   async loadZipcodeLatLng() {
-    this.zipcodes = await d3.csv('./assets/zipcode.csv');
+    this.zipcodes = await d3.csv('./assets/france_zipcode.csv');
+    const belgiqueZipcodes = await d3.csv('./assets/belgique_zipcode.csv');
+    belgiqueZipcodes.forEach((row) => (row.zipcode = 'B-' + row.zipcode));
+    this.zipcodes = this.zipcodes.concat(belgiqueZipcodes);
+    console.log('this.zipcodes: ', this.zipcodes);
   }
 
   ngOnInit(): void {}
@@ -43,8 +47,9 @@ export class FranceMapComponent implements OnChanges, OnInit {
 
   async init() {
     console.log('init');
-    const zoom = (window.innerWidth < 500) ? 5 : 6;
-    const center: L.LatLngExpression = (window.innerWidth < 500) ? [45.5, 1.8] : [46.9, 1];
+    const zoom = window.innerWidth < 500 ? 5 : 6;
+    const center: L.LatLngExpression =
+      window.innerWidth < 500 ? [45.5, 1.8] : [46.9, 1];
 
     this.map = L.map(
       (this.elt.nativeElement as HTMLElement).querySelector(
