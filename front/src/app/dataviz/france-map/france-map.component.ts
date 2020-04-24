@@ -44,7 +44,7 @@ export class FranceMapComponent implements OnChanges, OnInit {
   async init() {
     console.log('init');
     const zoom = (window.innerWidth < 500) ? 5 : 6;
-    const center = (window.innerWidth < 500) ? [45.5, 1.8] : [46.9, 1];
+    const center: L.LatLngExpression = (window.innerWidth < 500) ? [45.5, 1.8] : [46.9, 1];
 
     this.map = L.map(
       (this.elt.nativeElement as HTMLElement).querySelector(
