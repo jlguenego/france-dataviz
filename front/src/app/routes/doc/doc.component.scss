@@ -1,0 +1,23 @@
+article {
+  display: flex;
+  flex-flow: column;
+  padding: 0.3em;
+  width: 100%;
+}
+
+a {
+  color: blue;
+}
+
+pre {
+  @media only screen and (max-width: 600px) {
+    font-size: 0.5em;
+  }
+  padding: 0.3em;
+  background: #eee;
+}
+
+code {
+  padding: 0 0.3em;
+  background: #eee;
+}

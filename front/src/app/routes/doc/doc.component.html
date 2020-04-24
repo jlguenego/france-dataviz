@@ -1,1 +1,104 @@
-<p>doc works!</p>
+<article>
+  <h1>France Dataviz, c'est quoi ?</h1>
+  <p>
+    C'est juste une petite application qui te permet de visualiser ton fichier
+    CSV avec les colonnes suivantes :
+  </p>
+  <ul>
+    <li>
+      <b>label</b> : Libellé qui va s'affichier quand l'utilisateur clique sur
+      le rond rouge.
+    </li>
+    <li>
+      <b>zipcode</b> : Code postal pour déterminer le lieu ou positionner le
+      rond rouge.
+    </li>
+    <li><b>latitude</b> : (optionel) Latitude si pas de zipcode.</li>
+    <li><b>longitude</b> : (optionel) Longitude si pas de zipcode.</li>
+  </ul>
+
+  <p>
+    Si tu indiques le zipcode (code postal), je retrouve tout seul la
+    localisation. Pour les zipccodes étrangers, faut mettre le préfixe du pays
+    avant. Exemple <code>B-</code> pour la Belgique, <code>CH-</code> pour la suisse, etc.
+  </p>
+
+  <p>
+    Alors bien sûr, c'est à toi de faire ton propre fichier CSV. Je peux pas
+    faire grand chose sur ce coup là.
+  </p>
+
+  <p>
+    Juste un truc, tu peux donner un titre à ton fichier avec une ligne de
+    commentaire comme ceci :
+  </p>
+
+  <pre>
+    # title=Ceci est le titre de mon fichier
+  </pre>
+
+  <h2>Exemple</h2>
+
+  <pre>
+    # title=Les endroits ou j'ai passé du temps en Vacances
+    label,zipcode
+    Mon endroit préféré,05000
+    Mon autre endroit préféré,44350
+    Manger des frites mayo et de la bière,B-1000
+  </pre>
+
+  <h1>Comment je charge mon fichier</h1>
+  <h2>Fichier sur ton ordi, à visualiser juste pour toi</h2>
+  <p>
+    Tu peux cliquer sur le bouton en haut à droite. Il te demande la
+    localisation de ton fichier, et hop il se télécharge, mais juste sur le
+    navigateur. Rien ne va sur un serveur, ta vie privée reste chez toi. Si tu
+    veux t'en assurez, tu peux regarder le
+    <a href="https://github.com/jlguenego/france-dataviz"
+      >code source de cette appli</a
+    >.
+  </p>
+  <h2>Fichier sur un serveur, à partage avec les autres</h2>
+  <p>
+    C'est pas encore fait, mais je prévois de faire un bouton qui permette de
+    partager une dataviz. A toi de mettre ta dataviz en public (avec le fichier
+    CSV posé dans un cloud Google truc, Amazon machin, ou Micromou tagada, FTP,
+    etc.). Pour contourner les problèmes de CORS, il faut mettre une extension
+    '.txt' à ton fichier, même si le contenu est du CSV.
+  </p>
+
+  <h1>Merci, 1000 fois merci !</h1>
+
+  <ul>
+    <li>
+      <a href="https://firebase.google.com/">Firebase</a> pour héberger gratos
+      ce service avec un super nom de domaine.
+    </li>
+    <li>
+      <a href="https://angular.io/">Angular</a> pour le framework composant
+      front end.
+    </li>
+    <li>
+      <a href="https://d3js.org/">D3</a> pour le framework qui mets les ronds
+      rouges facilement et avec des perfs.
+    </li>
+    <li>
+      <a href="https://leafletjs.com/">Leaflet</a> pour organiser la carte en
+      couche.
+    </li>
+    <li>
+      <a href="https://www.flaticon.com/">Flaticon</a> pour les petites icônes.
+    </li>
+    <li>
+      <a href="https://www.openstreetmap.org/">OpenStreetMap</a> pour la carte
+      du monde.
+    </li>
+  </ul>
+
+  <h1>Auteur</h1>
+  <p>
+    Jean-Louis GUENEGO
+    <a href="mailto:jlguenego@gmail.com">jlguenego@gmail.com</a>
+  </p>
+  <p><a href="https://jlg-consulting.com">JLG Consulting @2020</a></p>
+</article>
