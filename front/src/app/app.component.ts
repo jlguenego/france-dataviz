@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { StateService } from './state.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,8 @@ import { Component, OnInit, ElementRef } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  csvFilename = './assets/xxx_clients.csv';
-  constructor(private elt: ElementRef) {}
+
+  constructor(private elt: ElementRef, private state: StateService) {}
 
   ngOnInit(): void {
   }
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit {
           'current-csv-content',
           evt.target.result as string
         );
-        this.csvFilename = file.name;
+        this.state.csvFilename = file.name;
       };
       fileReader.onerror = function (evt) {
         console.log('evt: ', evt);

@@ -34,10 +34,12 @@ export class FranceMapComponent implements OnChanges, OnInit {
     this.zipcodes = await d3.csv('./assets/france_zipcode.csv');
     const belgiqueZipcodes = await d3.csv('./assets/belgique_zipcode.csv');
     const suisseZipcodes = await d3.csv('./assets/suisse_zipcode.csv');
+    const miscZipcodes = await d3.csv('./assets/misc_zipcode.csv');
     belgiqueZipcodes.forEach((row) => (row.zipcode = 'B-' + row.zipcode));
     suisseZipcodes.forEach((row) => (row.zipcode = 'CH-' + row.zipcode));
     this.zipcodes = this.zipcodes.concat(belgiqueZipcodes);
     this.zipcodes = this.zipcodes.concat(suisseZipcodes);
+    this.zipcodes = this.zipcodes.concat(miscZipcodes);
     console.log('this.zipcodes: ', this.zipcodes);
   }
 

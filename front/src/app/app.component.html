@@ -1,14 +1,16 @@
 <header>
-  <a href="#">
+  <a routerLink="/">
     <img src="assets/france.svg" alt="Logo" />
     <span>France Dataviz</span>
   </a>
-  <input type="file" (change)="onChange()" />
+  <nav>
+    <input type="file" (change)="onChange()" />
+    <a routerLink="/doc">Help</a>
+  </nav>
 </header>
 <main>
-  <app-france-map [csvFilename]="csvFilename"></app-france-map>
+  <router-outlet></router-outlet>
 </main>
-
 <footer>
   <div>
     <a href="https://jlg-consulting.com">App offered by JLG Consulting @2020</a>

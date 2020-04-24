@@ -3,7 +3,11 @@ Map your CSV file to a France map
 
 ## TODO
 
-- add 
+- add australia new zeland us pays bas country uk inde (facture)
+- add facebook social media image (open graph)
+- add url from csv online
+- refactor download file component
+- faire un routing avec de la doc
 
 ## Author
 
