@@ -24,6 +24,7 @@ export class FranceMapComponent implements OnChanges, OnInit {
   isInitialized = false;
   label = '';
   zipcodes: d3.DSVRowArray<string>;
+  title = '';
 
   @Input() csvFilename: string;
 
@@ -42,11 +43,14 @@ export class FranceMapComponent implements OnChanges, OnInit {
 
   async init() {
     console.log('init');
+    const zoom = (window.innerWidth < 500) ? 5 : 6;
+    const center = (window.innerWidth < 500) ? [45.5, 1.8] : [46.9, 1];
+
     this.map = L.map(
       (this.elt.nativeElement as HTMLElement).querySelector(
         '.leaflet-map'
       ) as HTMLElement
-    ).setView([46.9, 1], 6);
+    ).setView(center, zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -73,6 +77,16 @@ export class FranceMapComponent implements OnChanges, OnInit {
       if (!csvContent) {
         return;
       }
+
+      // get the title
+      const titleComment = csvContent.split(/[\r\n]+/).filter((row) => {
+        console.log('row: ', row);
+        return row.startsWith('# title=');
+      });
+      console.log('titleComment: ', titleComment);
+      if (titleComment.length) {
+        this.title = titleComment[0].replace(/^# title=/, '');
+      }
       // filter comment.
       const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
       const filterEmptyLines = filteredContent.replace(/^[\r\n]+/gm, '\n');
@@ -83,11 +97,12 @@ export class FranceMapComponent implements OnChanges, OnInit {
 
       this.data.forEach((d: any) => {
         if (!('latitude' in d)) {
-          console.log('latitude not found in d', d);
-          const place = this.zipcodes.find(
+          let place = this.zipcodes.find(
             (place) => place.zipcode === d.zipcode
           );
-          console.log('place: ', place);
+          if (!place) {
+            place = this.zipcodes.find((place) => place.zipcode === '75001');
+          }
           d.latitude = place.latitude;
           d.longitude = place.longitude;
         }

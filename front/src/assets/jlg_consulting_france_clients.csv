@@ -1,4 +1,4 @@
-# List of JLG Consulting clients located in France.
+# title=List of JLG Consulting clients located in France.
 label,zipcode
 1998-2000 - Cap Gemini Ernst & Young,92400
 2000-2001 - Universite de Paris-Est - Marne la Vallée,93460
@@ -74,7 +74,7 @@ label,zipcode
 2018 - Groupe INFODIGITAL - Le Moniteur,92160
 2018 - BIHR (Equipementier moto),68870
 2018 - Caisse des Dépôts et Consignations,94110
-2018 - Renault (Robinson),92350
+2018 2019 2020 - Renault (Robinson),92350
 2018 - INPI (Courbevoie),92400
 2018 - CNAF Rennes,35000
 2018 2019 - ITCE (Groupe BPCE),75013
@@ -87,6 +87,7 @@ label,zipcode
 2019 - General Electrics,92400
 2019 - Ministère de la Défense,92400
 2019 - GFI Informatique Metz,57000
+2019 - Orsys Angers,49000
 2019 - ADCI (ERP BTP-VRD),51100
 2019 - Grand Frais / PROSOL Gestion (Direction informatique de Lyon),69970
 2019 - Pharmagest WELCOOP,54500
@@ -101,5 +102,8 @@ label,zipcode
 2019 - SITTI (Editeurs de sites internet),45770
 2019 - BIMEDIA,85000
 2019 - JVS,51000
+2020 - BNP Paribas - CETELEM,75008
+2020 - OCAPIAT - FAFSEA (OPCO),86000
+
 
 

@@ -2,15 +2,26 @@ app-france-map {
   display: flex;
   flex-flow: column;
   width: 100%;
-  height: 80vh;
-  @media only screen and (max-width: 500px)  {
-    height: 80vh;
+
+  .header {
+    display: flex;
+    flex-flow: row wrap;
+    // align-items: center;
+    background: #333;
+    color: white;
+    padding: 0.5em 0em;
+    .title {
+      padding: 0 0.3em;
+    }
+    .label {
+      padding: 0 0.3em;
+    }
   }
-  height: 80vh;
+
   div.leaflet-map {
+    flex-grow: 1;
     display: flex;
     width: 100%;
-    height: 100%;
   }
 }
 

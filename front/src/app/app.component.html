@@ -3,14 +3,9 @@
     <img src="assets/france.svg" alt="Logo" />
     <span>France Dataviz</span>
   </a>
+  <input type="file" (change)="onChange()" />
 </header>
 <main>
-  <h1>Data visualization on France map</h1>
-
-  <input type="file" (change)="onChange()" />
-
-  <div>CSV filename: {{ csvFilename }}</div>
-
   <app-france-map [csvFilename]="csvFilename"></app-france-map>
 </main>
 
