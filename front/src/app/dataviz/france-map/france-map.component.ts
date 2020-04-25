@@ -10,6 +10,7 @@ import {
 
 import * as L from 'leaflet';
 import * as d3 from 'd3';
+import { StateService } from 'src/app/state.service';
 
 @Component({
   selector: 'app-france-map',
@@ -17,18 +18,15 @@ import * as d3 from 'd3';
   styleUrls: ['./france-map.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FranceMapComponent implements OnChanges, OnInit {
+export class FranceMapComponent implements OnInit {
   map: L.Map;
   svg: any;
   data: any[];
-  isInitialized = false;
   label = '';
   zipcodes: Array<d3.DSVRowString<string>>;
   title = '';
 
-  @Input() csvFilename: string;
-
-  constructor(private elt: ElementRef) {}
+  constructor(private elt: ElementRef, private state: StateService) {}
 
   async loadZipcodeLatLng() {
     this.zipcodes = await d3.csv('./assets/france_zipcode.csv');
@@ -43,15 +41,11 @@ export class FranceMapComponent implements OnChanges, OnInit {
     console.log('this.zipcodes: ', this.zipcodes);
   }
 
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges this.csvFilename: ', this.csvFilename);
+  ngOnInit(): void {
     this.refresh();
   }
 
   async init() {
-    console.log('init');
     const zoom = window.innerWidth < 500 ? 5 : 6;
     const center: L.LatLngExpression =
       window.innerWidth < 500 ? [45.5, 1.8] : [46.9, 1];
@@ -71,18 +65,12 @@ export class FranceMapComponent implements OnChanges, OnInit {
     this.map.addLayer(this.svg);
 
     await this.loadZipcodeLatLng();
-    await this.loadDefaultFile();
   }
 
   async refresh() {
     console.log('refresh');
     try {
-      if (!this.isInitialized) {
-        await this.init();
-        this.isInitialized = true;
-      }
-
-      console.log('this.csvFilename: ', this.csvFilename);
+      await this.init();
       const csvContent = localStorage.getItem('current-csv-content');
       if (!csvContent) {
         return;
@@ -90,10 +78,8 @@ export class FranceMapComponent implements OnChanges, OnInit {
 
       // get the title
       const titleComment = csvContent.split(/[\r\n]+/).filter((row) => {
-        console.log('row: ', row);
         return row.startsWith('# title=');
       });
-      console.log('titleComment: ', titleComment);
       if (titleComment.length) {
         this.title = titleComment[0].replace(/^# title=/, '');
       }
@@ -175,13 +161,5 @@ export class FranceMapComponent implements OnChanges, OnInit {
       }
       console.log('error: ', error);
     }
-  }
-
-  async loadDefaultFile() {
-    const response = await fetch('./assets/jlg_consulting_france_clients.csv');
-    const content = await response.text();
-    console.log('content: ', content);
-
-    localStorage.setItem('current-csv-content', content);
   }
 }
