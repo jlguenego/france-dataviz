@@ -1,7 +1,15 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 0.3em;
+  width: 100%;
+}
+
 article {
   display: flex;
   flex-flow: column;
-  padding: 0.3em;
+  max-width: 40em;
   width: 100%;
 }
 
