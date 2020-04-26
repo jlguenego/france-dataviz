@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { csvp } from 'src/app/csvp';
 
-const DEFAULT_URL = './assets/jlg_consulting_france_clients.csv';
+const DEFAULT_URL = 'http://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateService {
-  csvFilename = DEFAULT_URL;
+  csvpFilename = DEFAULT_URL;
 
   constructor() {
     this.loadFileFromURL();
@@ -14,19 +15,13 @@ export class StateService {
 
   async loadFileFromURL() {
     try {
-      const response = await fetch(this.csvFilename, {
-        mode: 'no-cors',
-      });
-      const content = await response.text();
+      console.log('about to load csvp', this.csvpFilename);
+      const content = await csvp(this.csvpFilename);
       console.log('content: ', content);
-      if (content === '') {
-        throw new Error('CORS problem');
-      }
 
       localStorage.setItem('current-csv-content', content);
     } catch (error) {
       localStorage.removeItem('current-csv-content');
-      alert('Ton fichier peut pas ̂être chargé à cause du CORS');
       throw error;
     }
   }

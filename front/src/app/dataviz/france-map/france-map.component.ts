@@ -19,6 +19,8 @@ import { StateService } from 'src/app/state.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
+
+  isInitialized = false;
   map: L.Map;
   svg: any;
   data: any[];
@@ -70,11 +72,15 @@ export class FranceMapComponent implements OnInit {
   async refresh() {
     console.log('refresh');
     try {
-      await this.init();
+      if (!this.isInitialized) {
+        await this.init();
+        this.isInitialized = true;
+      }
       const csvContent = localStorage.getItem('current-csv-content');
       if (!csvContent) {
         return;
       }
+
 
       // get the title
       const titleComment = csvContent.split(/[\r\n]+/).filter((row) => {
@@ -85,8 +91,14 @@ export class FranceMapComponent implements OnInit {
       }
       // filter comment.
       const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
-      const filterEmptyLines = filteredContent.replace(/^[\r\n]+/gm, '\n');
+      // remove all empty lines.
+      const filterEmptyLines = filteredContent.replace(/^[\r\n]+/gm, '\n')
+      // remove the first empty line.
+      .replace(/^[\r\n]/, '');
+      console.log('filterEmptyLines: ', filterEmptyLines);
+
       const csvData = d3.csvParse(filterEmptyLines);
+      console.log('csvData: ', csvData);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);

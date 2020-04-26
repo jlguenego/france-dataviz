@@ -45,7 +45,7 @@ export class MenuComponent implements OnInit {
         'input[type="text"]'
       ) as HTMLInputElement).value;
       console.log('value: ', value);
-      this.state.csvFilename = value;
+      this.state.csvpFilename = value;
       await this.state.loadFileFromURL();
       await this.router.navigateByUrl('/');
     } catch (error) {
