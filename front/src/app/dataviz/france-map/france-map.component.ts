@@ -11,6 +11,23 @@ import {
 import * as L from 'leaflet';
 import * as d3 from 'd3';
 import { StateService } from 'src/app/state.service';
+import { ActivatedRoute } from '@angular/router';
+
+function validURL(str: string) {
+  var pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
+  ); // fragment locator
+  return !!pattern.test(str);
+}
+
+const DEFAULT_URL =
+  'http://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
 
 @Component({
   selector: 'app-france-map',
@@ -19,7 +36,6 @@ import { StateService } from 'src/app/state.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
-
   isInitialized = false;
   map: L.Map;
   svg: any;
@@ -28,7 +44,11 @@ export class FranceMapComponent implements OnInit {
   zipcodes: Array<d3.DSVRowString<string>>;
   title = '';
 
-  constructor(private elt: ElementRef, private state: StateService) {}
+  constructor(
+    private elt: ElementRef,
+    private state: StateService,
+    private route: ActivatedRoute
+  ) {}
 
   async loadZipcodeLatLng() {
     this.zipcodes = await d3.csv('./assets/france_zipcode.csv');
@@ -44,7 +64,12 @@ export class FranceMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refresh();
+    console.log('france-map ngOnInit start');
+    this.route.queryParams.subscribe(async (qp) => {
+      console.log('qp: ', qp);
+      this.state.csvpFilename = validURL(qp.url) ? qp.url : DEFAULT_URL;
+      this.refresh();
+    });
   }
 
   async init() {
@@ -82,7 +107,6 @@ export class FranceMapComponent implements OnInit {
         return;
       }
 
-
       // get the title
       const titleComment = csvContent.split(/[\r\n]+/).filter((row) => {
         return row.startsWith('# title=');
@@ -93,9 +117,10 @@ export class FranceMapComponent implements OnInit {
       // filter comment.
       const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
       // remove all empty lines.
-      const filterEmptyLines = filteredContent.replace(/^[\r\n]+/gm, '\n')
-      // remove the first empty line.
-      .replace(/^[\r\n]/, '');
+      const filterEmptyLines = filteredContent
+        .replace(/^[\r\n]+/gm, '\n')
+        // remove the first empty line.
+        .replace(/^[\r\n]/, '');
       console.log('filterEmptyLines: ', filterEmptyLines);
 
       const csvData = d3.csvParse(filterEmptyLines);
