@@ -1,29 +1,31 @@
-interface PromiseHelper {
+interface CSVPObject {
   resolve?(str: string): void;
   reject?(): void;
+  script?: HTMLScriptElement;
 }
 
-const promiseHelper = {} as PromiseHelper;
-
-const script = document.createElement('script');
-document.head.appendChild(script);
+const csvpObject = {} as CSVPObject;
 
 export function csvp(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     console.log('csvp start');
-    promiseHelper.resolve = resolve;
-    promiseHelper.reject = reject;
-    script.src = url;
+    csvpObject.resolve = resolve;
+    csvpObject.reject = reject;
+    csvpObject.script = document.createElement('script');
+    csvpObject.script.src = url;
+    document.head.appendChild(csvpObject.script);
   });
 }
 
 (window as any).csvp = function (str: string) {
   console.log('window.csvp start', str);
+  document.head.removeChild(csvpObject.script);
+  csvpObject.script = undefined;
   // TODO : check str is csv format.
   if (!isCsvFormat(str)) {
-    return promiseHelper.reject();
+    return csvpObject.reject();
   }
-  promiseHelper.resolve(str);
+  csvpObject.resolve(str);
 };
 
 function isCsvFormat(str: string) {

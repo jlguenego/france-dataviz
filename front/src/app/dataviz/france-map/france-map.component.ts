@@ -67,6 +67,7 @@ export class FranceMapComponent implements OnInit {
     this.map.addLayer(this.svg);
 
     await this.loadZipcodeLatLng();
+    await this.state.loadFileFromURL();
   }
 
   async refresh() {

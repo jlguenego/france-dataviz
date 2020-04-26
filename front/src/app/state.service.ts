@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { csvp } from 'src/app/csvp';
 
-const DEFAULT_URL = 'http://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
+const DEFAULT_URL =
+  'http://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +10,7 @@ const DEFAULT_URL = 'http://jlg-consulting.com/dataviz/jlg_consulting_france_cli
 export class StateService {
   csvpFilename = DEFAULT_URL;
 
-  constructor() {
-    this.loadFileFromURL();
-  }
+  constructor() {}
 
   async loadFileFromURL() {
     try {
