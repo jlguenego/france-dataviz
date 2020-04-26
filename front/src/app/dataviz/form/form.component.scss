@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  label {
+    div {
+      padding-bottom: 0.2em;
+    }
+    min-width: 19em;
+    flex-grow: 1;
+  }
+}

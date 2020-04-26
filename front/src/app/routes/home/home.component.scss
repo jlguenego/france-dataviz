@@ -1,4 +1,43 @@
 :host {
   display: flex;
+  flex-flow: column;
+  align-items: center;
   width: 100%;
+}
+
+section {
+  padding: 0.5em;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  > div {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    max-width: 40em;
+  }
+
+  &.tagline {
+    background-image: url('/assets/tagline.jpg');
+    background-position: center;
+    background-size: cover;
+    > div {
+      max-width: 30em;
+      button {
+        max-width: 100%;
+        width: 15em;
+      }
+    }
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+.tagline {
+  font-weight: bold;
+  font-size: 1.4em;
 }

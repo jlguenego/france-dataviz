@@ -13,59 +13,138 @@
       <b>zipcode</b> : Code postal pour déterminer le lieu ou positionner le
       rond rouge.
     </li>
-    <li><b>latitude</b> : (optionel) Latitude si pas de zipcode.</li>
-    <li><b>longitude</b> : (optionel) Longitude si pas de zipcode.</li>
   </ul>
 
   <p>
-    Si tu indiques le zipcode (code postal), je retrouve tout seul la
-    localisation. Pour les zipccodes étrangers, faut mettre le préfixe du pays
-    avant. Exemple <code>B-</code> pour la Belgique, <code>CH-</code> pour la suisse, etc.
+    Alors bien sûr, c'est à toi de faire ton propre fichier CSV.
   </p>
 
   <p>
-    Alors bien sûr, c'est à toi de faire ton propre fichier CSV. Je peux pas
-    faire grand chose sur ce coup là.
+    Ensuite, tu dois transformer ton fichier CSV en fichier CSVP. C'est très
+    simple :
   </p>
-
-  <p>
-    Juste un truc, tu peux donner un titre à ton fichier avec une ligne de
-    commentaire comme ceci :
-  </p>
-
-  <pre>
-    # title=Ceci est le titre de mon fichier
-  </pre>
+  <ul>
+    <li>
+      Ajoute le préfixe <code>csvp(`</code> devant le contenu du fichier CSV
+    </li>
+    <li>
+      Ajouter le suffixe <code>`);</code> derrière le contenu du fichier CSV
+    </li>
+    <li>
+      Renomme le fichier <code>.csv</code> en <code>.csvp</code>, c'est pas
+      obligé mais ça fait plus joli.
+    </li>
+  </ul>
 
   <h2>Exemple</h2>
 
   <pre>
+    csvp(`
     # title=Les endroits ou j'ai passé du temps en Vacances
     label,zipcode
     Mon endroit préféré,05000
     Mon autre endroit préféré,44350
     Manger des frites mayo et de la bière,B-1000
+    `);
   </pre>
 
-  <h1>Comment je charge mon fichier</h1>
-  <h2>Fichier sur ton ordi, à visualiser juste pour toi</h2>
+  <h2>Mais pourquoi ça marche pas direct avec un fichier CSV ?</h2>
+
   <p>
-    Tu peux cliquer sur le bouton en haut à droite. Il te demande la
-    localisation de ton fichier, et hop il se télécharge, mais juste sur le
-    navigateur. Rien ne va sur un serveur, ta vie privée reste chez toi. Si tu
-    veux t'en assurez, tu peux regarder le
-    <a href="https://github.com/jlguenego/france-dataviz"
-      >code source de cette appli</a
-    >.
+    Parce que il existe un mécanisme technique,
+    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+      >appelé CORS</a
+    >
+    qui interdit de charger un fichier CSV depuis un autre domaine web que celui
+    de notre outil. Du coup, pour le contourner sans créer de faille de sécurité, on utilise la technique du
+    JSONP, mais avec un fichier CSV : <b>le CSVP</b>.
   </p>
-  <h2>Fichier sur un serveur, à partage avec les autres</h2>
+
+  <h1>Comment je visualise mon fichier ?</h1>
+
   <p>
-    C'est pas encore fait, mais je prévois de faire un bouton qui permette de
-    partager une dataviz. A toi de mettre ta dataviz en public (avec le fichier
-    CSV posé dans un cloud Google truc, Amazon machin, ou Micromou tagada, FTP,
-    etc.). Pour contourner les problèmes de CORS, il faut mettre une extension
-    '.txt' à ton fichier, même si le contenu est du CSV.
+    Tu dois déposer le fichier CSVP sur un site web, ou dans un cloud
+    Google truc, Amazon machin, ou Micromou tagada, FTP, etc.). Ensuite, tu vas
+    sur l'url <code>https://france-dataviz.web.app/csvp?url=TON_URL_DE_FICHIER_CSVP</code>
   </p>
+  <p>
+    Et voilà ! Pour t'aider, tu peux saisir l'URL de ton fichier CSVP dans le formulaire ci-dessous et je
+    t'emmène à l'URL.
+  </p>
+
+  <app-form></app-form>
+
+  <h1>Truc pour les experts</h1>
+
+  <h2>Colonnes CSV</h2>
+
+  <p>
+    Si tu n'as pas le <i>code postal</i>, tu peux indiquer la <b>latitude</b> et
+    <b>longitude</b>.
+  </p>
+  <p>
+    En fait, voici la liste complète des champs reconnus par France Dataviz :
+  </p>
+
+  <ul>
+    <li>
+      <b>label</b> : Libellé qui va s'affichier quand l'utilisateur clique sur
+      le rond rouge.
+    </li>
+    <li>
+      <b>zipcode</b> : Code postal pour déterminer le lieu ou positionner le
+      rond rouge.
+    </li>
+    <li><b>latitude</b> : (optionel) Latitude si pas de zipcode.</li>
+    <li><b>longitude</b> : (optionel) Longitude si pas de zipcode.</li>
+  </ul>
+
+  <h2>Code postaux étrangers</h2>
+  <p>
+    Si tu indiques le zipcode (code postal), je retrouve tout seul la
+    localisation. Pour les zipccodes étrangers, faut mettre le préfixe du pays
+    avant. Exemple <code>B-</code> pour la Belgique, <code>CH-</code> pour la
+    suisse, etc.
+  </p>
+
+  <p>Exemple</p>
+
+  <pre>
+    csvp(`
+    # title=Les endroits ou j'ai passé du temps en Vacances
+    label,zipcode
+    Mon endroit préféré dans les Alpes Suisses,CH-1904
+    Mon autre endroit préféré en Bretagne,44350
+    Manger des frites mayo à Bruxelles,B-1000
+    `);
+  </pre>
+
+  <h2>Commentaires</h2>
+
+  <p>
+    Le fichier CSV peut comporter des commentaires. Ce sont des lignes qui
+    commencent par <code>#</code> ou par <code>@</code>.
+  </p>
+
+  <h3>Commandes</h3>
+
+  <p>
+    L'application peut reconnaitre des commandes particulières. Elles sont
+    exprimées via des commentaires indiquant une ligne de commentaire comme suit
+    :
+  </p>
+
+  <pre>
+# nom_commande=valeur_commande
+  </pre>
+
+  <p>Exemple</p>
+
+  <p>Le titre peut s'indiquer par une commande</p>
+
+  <pre>
+# title=Ceci est le titre du fichier
+  </pre>
 
   <h1>Merci, 1000 fois merci !</h1>
 

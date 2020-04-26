@@ -12,22 +12,10 @@ import * as L from 'leaflet';
 import * as d3 from 'd3';
 import { StateService } from 'src/app/state.service';
 import { ActivatedRoute } from '@angular/router';
-
-function validURL(str: string) {
-  var pattern = new RegExp(
-    '^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$',
-    'i'
-  ); // fragment locator
-  return !!pattern.test(str);
-}
+import { validURL } from 'src/app/misc';
 
 const DEFAULT_URL =
-  'http://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
+  'https://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
 
 @Component({
   selector: 'app-france-map',

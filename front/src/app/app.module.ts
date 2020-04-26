@@ -8,9 +8,11 @@ import { FranceMapComponent } from './dataviz/france-map/france-map.component';
 import { HomeComponent } from './routes/home/home.component';
 import { DocComponent } from './routes/doc/doc.component';
 import { MenuComponent } from './routes/menu/menu.component';
+import { CsvpComponent } from './routes/csvp/csvp.component';
+import { FormComponent } from './dataviz/form/form.component';
 
 @NgModule({
-  declarations: [AppComponent, FranceMapComponent, HomeComponent, DocComponent, MenuComponent],
+  declarations: [AppComponent, FranceMapComponent, HomeComponent, DocComponent, MenuComponent, CsvpComponent, FormComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

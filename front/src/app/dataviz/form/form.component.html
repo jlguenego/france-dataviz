@@ -1,0 +1,7 @@
+<form [formGroup]="f" (ngSubmit)="submit()">
+  <label>
+    <div>Entre une URL (fichier au format csvp)</div>
+    <input type="text" placeholder="Ex: https://jlg-consulting.com/dataviz/clients.csvp" formControlName="url" />
+  </label>
+  <button type="submit">Charger</button>
+</form>
