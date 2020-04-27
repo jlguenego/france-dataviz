@@ -1,12 +1,12 @@
 <section>
   <div>
+    <button (click)="back()">&lt; Retour</button>
+  </div>
+  <div>
     <p>Copier-coller le code et insérer le dans un document HTML</p>
     <textarea>{{ state.iframeCode }}</textarea>
     <div>
       <button class="primary" (click)="copy()">Copier le code</button>
-    </div>
-    <div>
-      <button (click)="back()">Retour</button>
     </div>
     <p>En principe cela donne l'iframe ci-dessous :</p>
     <div [innerHTML]="trustedHtml"></div>

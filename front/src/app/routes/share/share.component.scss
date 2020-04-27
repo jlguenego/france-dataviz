@@ -19,7 +19,10 @@ section {
 
 button {
   width: 10em;
-  margin-bottom: 1em;
+}
+
+button.primary {
+  margin-top: 0.5em;
 }
 
 textarea {
