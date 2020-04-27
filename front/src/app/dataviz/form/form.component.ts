@@ -33,9 +33,10 @@ export class FormComponent implements OnInit {
       alert('please enter a valid url');
       return;
     }
-    this.state.iframeCode = `<iframe src="https://france-dataviz.web.app/csvp?isFullScreen=true&url=${encodeURIComponent(
+    this.state.setCsvpFilename(this.f.value.url);
+    this.state.setIframeCode(`<iframe src="https://france-dataviz.web.app/csvp?isFullScreen=true&url=${encodeURIComponent(
       this.f.value.url
-    )}" width="100%" height="450" frameborder="0" style="border: 0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>`;
+    )}" width="100%" height="450" frameborder="0" style="border: 0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>`);
     await this.router.navigateByUrl('/share');
   }
 }

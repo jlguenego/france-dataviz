@@ -6,13 +6,18 @@ import { csvp } from 'src/app/csvp';
 })
 export class StateService {
   csvpFilename = localStorage.getItem('csvpFilename');
-  iframeCode: string;
+  iframeCode = localStorage.getItem('iframeCode');
 
   constructor() {}
 
   setCsvpFilename(str: string) {
     this.csvpFilename = str;
     localStorage.setItem('csvpFilename', str);
+  }
+
+  setIframeCode(str: string) {
+    this.iframeCode = str;
+    localStorage.setItem('iframeCode', str);
   }
 
   async loadFileFromURL() {
