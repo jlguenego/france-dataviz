@@ -4,16 +4,14 @@ Map your CSV file to a France map
 ## TODO
 
 - add url from csv online
+- add circle diameter depending on value
 - configure color
 - configure image
-- group near circles together
+- group by near circles together
 - i18n
-- doc local usage
 - nice readme on github
 - seo
-- iframe
 - refactor download file component
-- faire un routing avec de la doc
 
 ## Author
 
