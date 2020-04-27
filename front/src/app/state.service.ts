@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { csvp } from 'src/app/csvp';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
 export class StateService {
-  csvpFilename: string;
+  csvpFilename = localStorage.getItem('csvpFilename');
   iframeCode: string;
 
   constructor() {}
+
+  setCsvpFilename(str: string) {
+    this.csvpFilename = str;
+    localStorage.setItem('csvpFilename', str);
+  }
 
   async loadFileFromURL() {
     try {

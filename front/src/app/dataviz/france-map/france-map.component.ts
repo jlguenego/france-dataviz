@@ -52,7 +52,7 @@ export class FranceMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (qp) => {
-      this.state.csvpFilename = validURL(qp.url) ? qp.url : DEFAULT_URL;
+      this.state.setCsvpFilename(validURL(qp.url) ? qp.url : DEFAULT_URL);
       this.refresh();
     });
   }
