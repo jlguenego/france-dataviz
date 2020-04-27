@@ -8,7 +8,6 @@ const csvpObject = {} as CSVPObject;
 
 export function csvp(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    console.log('csvp start');
     csvpObject.resolve = resolve;
     csvpObject.reject = reject;
     csvpObject.script = document.createElement('script');
@@ -18,7 +17,6 @@ export function csvp(url: string): Promise<string> {
 }
 
 (window as any).csvp = function (str: string) {
-  console.log('window.csvp start', str);
   document.head.removeChild(csvpObject.script);
   csvpObject.script = undefined;
   // TODO : check str is csv format.

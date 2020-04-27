@@ -48,13 +48,10 @@ export class FranceMapComponent implements OnInit {
     this.zipcodes = this.zipcodes.concat(belgiqueZipcodes);
     this.zipcodes = this.zipcodes.concat(suisseZipcodes);
     this.zipcodes = this.zipcodes.concat(miscZipcodes);
-    console.log('this.zipcodes: ', this.zipcodes);
   }
 
   ngOnInit(): void {
-    console.log('france-map ngOnInit start');
     this.route.queryParams.subscribe(async (qp) => {
-      console.log('qp: ', qp);
       this.state.csvpFilename = validURL(qp.url) ? qp.url : DEFAULT_URL;
       this.refresh();
     });
@@ -84,7 +81,6 @@ export class FranceMapComponent implements OnInit {
   }
 
   async refresh() {
-    console.log('refresh');
     try {
       if (!this.isInitialized) {
         await this.init();
@@ -109,10 +105,8 @@ export class FranceMapComponent implements OnInit {
         .replace(/^[\r\n]+/gm, '\n')
         // remove the first empty line.
         .replace(/^[\r\n]/, '');
-      console.log('filterEmptyLines: ', filterEmptyLines);
 
       const csvData = d3.csvParse(filterEmptyLines);
-      console.log('csvData: ', csvData);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);

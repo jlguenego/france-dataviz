@@ -3,5 +3,6 @@
     <div>Entre une URL (fichier au format csvp)</div>
     <input type="text" placeholder="Ex: https://jlg-consulting.com/dataviz/clients.csvp" formControlName="url" />
   </label>
-  <button type="submit">Charger</button>
+  <button type="submit">Visualiser</button>
+  <button type="button" (click)="generateIframe()">Partager le code</button>
 </form>

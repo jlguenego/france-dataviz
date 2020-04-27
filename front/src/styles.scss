@@ -69,3 +69,9 @@ form {
     margin-top: 1em;
   }
 }
+
+textarea {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+}

@@ -8,14 +8,13 @@ import { csvp } from 'src/app/csvp';
 })
 export class StateService {
   csvpFilename: string;
+  iframeCode: string;
 
   constructor() {}
 
   async loadFileFromURL() {
     try {
-      console.log('about to load csvp', this.csvpFilename);
       const content = await csvp(this.csvpFilename);
-      console.log('content: ', content);
 
       localStorage.setItem('current-csv-content', content);
     } catch (error) {

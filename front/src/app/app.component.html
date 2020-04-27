@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="!isFullScreen">
   <a routerLink="/">
     <img src="assets/france.svg" alt="Logo" />
     <span>France Dataviz</span>
@@ -20,7 +20,7 @@
 <main>
   <router-outlet></router-outlet>
 </main>
-<footer>
+<footer *ngIf="!isFullScreen">
   <div>
     <a href="https://jlg-consulting.com">App offered by JLG Consulting @2020</a>
   </div>

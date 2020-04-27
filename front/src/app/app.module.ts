@@ -10,9 +10,10 @@ import { DocComponent } from './routes/doc/doc.component';
 import { MenuComponent } from './routes/menu/menu.component';
 import { CsvpComponent } from './routes/csvp/csvp.component';
 import { FormComponent } from './dataviz/form/form.component';
+import { ShareComponent } from './routes/share/share.component';
 
 @NgModule({
-  declarations: [AppComponent, FranceMapComponent, HomeComponent, DocComponent, MenuComponent, CsvpComponent, FormComponent],
+  declarations: [AppComponent, FranceMapComponent, HomeComponent, DocComponent, MenuComponent, CsvpComponent, FormComponent, ShareComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

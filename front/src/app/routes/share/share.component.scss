@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+}
+
+section {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+  > div {
+    width: 100%;
+    max-width: 40em;
+  }
+}
+
+button {
+  width: 10em;
+  margin-bottom: 1em;
+}

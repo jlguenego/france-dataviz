@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { StateService } from './state.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,18 @@ import { StateService } from './state.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  isFullScreen = false;
 
-  constructor(private elt: ElementRef, private state: StateService) {}
-
-  ngOnInit(): void {
+  constructor(
+    private elt: ElementRef,
+    private state: StateService,
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParams.subscribe((qp) => {
+      console.log('qp: ', qp);
+      this.isFullScreen = qp.isFullScreen === 'true';
+    });
   }
 
+  ngOnInit(): void {}
 }
