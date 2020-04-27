@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from 'src/app/state.service';
 import { Location } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-share',
@@ -8,9 +9,12 @@ import { Location } from '@angular/common';
   styleUrls: ['./share.component.scss'],
 })
 export class ShareComponent implements OnInit {
-  constructor(public state: StateService, private location: Location) {}
+  trustedHtml: SafeHtml;
+  constructor(public state: StateService, private location: Location, private sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.trustedHtml = this.sanitizer.bypassSecurityTrustHtml(this.state.iframeCode);
+  }
 
   back() {
     this.location.back();
