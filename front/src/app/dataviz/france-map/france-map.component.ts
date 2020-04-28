@@ -52,7 +52,13 @@ export class FranceMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (qp) => {
+      if (qp.internal) {
+        // internal file was loaded during the form submission.
+        this.refresh();
+        return;
+      }
       this.state.setCsvpFilename(validURL(qp.url) ? qp.url : DEFAULT_URL);
+      await this.state.loadFileFromURL();
       this.refresh();
     });
   }
@@ -77,7 +83,6 @@ export class FranceMapComponent implements OnInit {
     this.map.addLayer(this.svg);
 
     await this.loadZipcodeLatLng();
-    await this.state.loadFileFromURL();
   }
 
   async refresh() {

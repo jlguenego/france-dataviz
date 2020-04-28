@@ -12,6 +12,7 @@ Map your CSV file to a France map
 - nice readme on github
 - seo
 - refactor download file component
+- add load personal document.
 
 ## Author
 

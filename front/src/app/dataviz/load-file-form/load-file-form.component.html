@@ -1,0 +1,7 @@
+<form [formGroup]="f" (ngSubmit)="submit()">
+  <label>
+    <div>Entre un fichier CSV de ton ordinateur </div>
+    <input type="file" (change)="onFileChange($event)" formControlName="csv" />
+  </label>
+  <button class="primary" type="submit" [disabled]="f.invalid">Visualiser</button>
+</form>
