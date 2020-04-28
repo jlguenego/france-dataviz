@@ -1,28 +1,19 @@
 <section class="tagline">
   <div>
     <h1>Visualise tes données CSV et partage les&nbsp;!</h1>
-    <button class="primary" routerLink="/doc">Comment ça marche ?</button>
+    <span>
+      <button routerLink="/examples">Exemples</button>
+      <button class="primary" routerLink="/doc">Comment ça marche ?</button>
+    </span>
   </div>
 </section>
 <section class="form">
   <div>
     <h1>Déjà habitué ?</h1>
+    <h2>Fichier public</h2>
     <app-form></app-form>
+    <h2>Fichier privé</h2>
+    <app-load-file-form></app-load-file-form>
   </div>
 </section>
-<section>
-  <h1>Exemples</h1>
-  <ul>
-    <li>
-      <a href="/csvp?url=https://jlg-consulting.com/dataviz/clients.csvp"
-        >Liste des clients</a
-      >
-      de <a href="https://jlg-consulting.com">JLG Consulting</a> depuis 2001
-    </li>
-    <li>
-      <a href="/csvp?url=https://jlg-consulting.com/dataviz/xxx_clients.csvp"
-        >Liste des clients de XXX</a
-      >
-    </li>
-  </ul>
-</section>
+

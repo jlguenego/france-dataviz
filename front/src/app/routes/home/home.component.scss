@@ -20,14 +20,22 @@ section {
   }
 
   &.tagline {
-    background-image: url('/assets/tagline.jpg');
+    background-image: url("/assets/tagline.jpg");
     background-position: center;
     background-size: cover;
     > div {
+      @media only screen and (max-width: 415px) {
+        h1 {
+          font-size: 1.5em;
+        }
+      }
       max-width: 30em;
       button {
-        max-width: 100%;
-        width: 15em;
+        margin-right: 0.5em;
+        @media only screen and (max-width: 415px) {
+          width: 100%;
+          margin-top: 0.5em;
+        }
       }
     }
   }

@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+}
+
+section {
+  padding: 0.5em;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  > div {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    max-width: 40em;
+  }
+}

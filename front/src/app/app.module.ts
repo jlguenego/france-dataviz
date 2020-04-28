@@ -11,6 +11,7 @@ import { CsvpComponent } from './routes/csvp/csvp.component';
 import { FormComponent } from './dataviz/form/form.component';
 import { ShareComponent } from './routes/share/share.component';
 import { LoadFileFormComponent } from './dataviz/load-file-form/load-file-form.component';
+import { ExamplesComponent } from './routes/examples/examples.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LoadFileFormComponent } from './dataviz/load-file-form/load-file-form.c
     FormComponent,
     ShareComponent,
     LoadFileFormComponent,
+    ExamplesComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
