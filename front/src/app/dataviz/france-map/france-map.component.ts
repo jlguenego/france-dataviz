@@ -13,6 +13,7 @@ import * as d3 from 'd3';
 import { StateService } from 'src/app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { validURL } from 'src/app/misc';
+import { DatavizService } from 'src/app/dataviz.service';
 
 const DEFAULT_URL =
   'https://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
@@ -29,26 +30,15 @@ export class FranceMapComponent implements OnInit {
   svg: any;
   data: any[];
   label = '';
-  zipcodes: Array<d3.DSVRowString<string>>;
+
   title = '';
 
   constructor(
     private elt: ElementRef,
     private state: StateService,
+    private dataviz: DatavizService,
     private route: ActivatedRoute
   ) {}
-
-  async loadZipcodeLatLng() {
-    this.zipcodes = await d3.csv('./assets/france_zipcode.csv');
-    const belgiqueZipcodes = await d3.csv('./assets/belgique_zipcode.csv');
-    const suisseZipcodes = await d3.csv('./assets/suisse_zipcode.csv');
-    const miscZipcodes = await d3.csv('./assets/misc_zipcode.csv');
-    belgiqueZipcodes.forEach((row) => (row.zipcode = 'B-' + row.zipcode));
-    suisseZipcodes.forEach((row) => (row.zipcode = 'CH-' + row.zipcode));
-    this.zipcodes = this.zipcodes.concat(belgiqueZipcodes);
-    this.zipcodes = this.zipcodes.concat(suisseZipcodes);
-    this.zipcodes = this.zipcodes.concat(miscZipcodes);
-  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (qp) => {
@@ -82,7 +72,7 @@ export class FranceMapComponent implements OnInit {
     this.svg = L.svg();
     this.map.addLayer(this.svg);
 
-    await this.loadZipcodeLatLng();
+    await this.dataviz.waitForInit();
   }
 
   async refresh() {
@@ -118,11 +108,13 @@ export class FranceMapComponent implements OnInit {
 
       this.data.forEach((d: any) => {
         if (!('latitude' in d)) {
-          let place = this.zipcodes.find(
+          let place = this.dataviz.zipcodes.find(
             (place) => place.zipcode === d.zipcode
           );
           if (!place) {
-            place = this.zipcodes.find((place) => place.zipcode === '75001');
+            place = this.dataviz.zipcodes.find(
+              (place) => place.zipcode === '75001'
+            );
           }
           d.latitude = place.latitude;
           d.longitude = place.longitude;

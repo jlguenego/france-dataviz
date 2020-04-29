@@ -3,6 +3,7 @@ Map your CSV file to a France map
 
 ## TODO
 
+- faire un planning
 - add url from csv online
 - add circle diameter depending on value
 - configure color
