@@ -11,6 +11,7 @@ import { StateService } from 'src/app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { validURL } from 'src/app/misc';
 import { DatavizService } from 'src/app/dataviz.service';
+import { Csv } from 'src/app/csv';
 
 const DEFAULT_URL =
   'https://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
@@ -22,6 +23,7 @@ const DEFAULT_URL =
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
+  csv: Csv;
   csvContent: string;
   map: L.Map;
   svg: any;
@@ -70,42 +72,17 @@ export class FranceMapComponent implements OnInit {
     await this.dataviz.waitForInit();
   }
 
-  parseOptions() {
-    const commentArray = this.csvContent.split(/[\r\n]+/).filter((row) => {
-      return row.startsWith('# ');
-    });
-
-    const getValue = (key: string) =>
-      commentArray
-        .filter((r) => r.startsWith('# ' + key + '='))[0]
-        ?.substr(('# ' + key + '=').length);
-
-    this.title = getValue('title');
-    this.color = getValue('color') || this.color;
-  }
-
   async refresh() {
     try {
       await this.init();
-      this.csvContent = localStorage.getItem('current-csv-content');
-      if (!this.csvContent) {
-        return;
-      }
 
-      this.parseOptions();
+      this.csv = new Csv();
 
-      // filter comment.
-      const filteredContent = this.csvContent.replace(
-        /^[#@][^\r\n]+[\r\n]+/gm,
-        ''
-      );
-      // remove all empty lines.
-      const filterEmptyLines = filteredContent
-        .replace(/^[\r\n]+/gm, '\n')
-        // remove the first empty line.
-        .replace(/^[\r\n]/, '');
-
-      const csvData = d3.csvParse(filterEmptyLines);
+      this.title = this.csv.getCommandValue('title') || this.title;
+      this.color = this.csv.getCommandValue('color') || this.color;
+      const content = this.csv.getContent();
+      console.log('content: ', content);
+      const csvData = d3.csvParse(content);
       this.data = csvData;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
