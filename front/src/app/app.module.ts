@@ -12,6 +12,7 @@ import { FormComponent } from './dataviz/form/form.component';
 import { ShareComponent } from './routes/share/share.component';
 import { LoadFileFormComponent } from './dataviz/load-file-form/load-file-form.component';
 import { ExamplesComponent } from './routes/examples/examples.component';
+import { PlanningComponent } from './dataviz/planning/planning.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ExamplesComponent } from './routes/examples/examples.component';
     ShareComponent,
     LoadFileFormComponent,
     ExamplesComponent,
+    PlanningComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],

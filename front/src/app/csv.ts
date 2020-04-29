@@ -1,6 +1,12 @@
+export enum CsvType {
+  MAP,
+  PLANNING,
+}
+
 export class Csv {
   rawContent: string;
   comments: string[];
+  contents: string[];
 
   constructor() {
     this.rawContent = localStorage.getItem('current-csv-content');
@@ -11,6 +17,22 @@ export class Csv {
     this.comments = this.rawContent.split(/[\r\n]+/).filter((row) => {
       return row.startsWith('# ');
     });
+
+    this.contents = this.rawContent
+      // remove the windows \r
+      .replace('\r', '')
+      // split in lines
+      .split('\n')
+      // trim white space
+      .map((r) => r.trim())
+      // filter comment
+      .filter((r) => !r.startsWith('#'))
+      // filter empty lines
+      .filter((r) => r !== '');
+  }
+
+  hasColumn(key: string): boolean {
+    return this.contents[0].split(',').includes(key);
   }
 
   getCommandValue(key: string) {
@@ -20,21 +42,14 @@ export class Csv {
       ?.substr(command.length);
   }
 
-  getContent() {
-    return (
-      this.rawContent
-        // remove the windows \r
-        .replace('\r', '')
-        // split in lines
-        .split('\n')
-        // trim white space
-        .map((r) => r.trim())
-        // filter comment
-        .filter((r) => !r.startsWith('#'))
-        // filter empty lines
-        .filter((r) => r !== '')
-        // reform a string
-        .join('\n')
-    );
+  getContent(): String {
+    return this.contents.join('\n');
+  }
+
+  getType(): CsvType {
+    if (this.hasColumn('zipcode')) {
+      return CsvType.MAP;
+    }
+    return CsvType.PLANNING;
   }
 }

@@ -3,6 +3,7 @@ import {
   OnInit,
   ElementRef,
   ViewEncapsulation,
+  Input,
 } from '@angular/core';
 
 import * as L from 'leaflet';
@@ -13,9 +14,6 @@ import { validURL } from 'src/app/misc';
 import { DatavizService } from 'src/app/dataviz.service';
 import { Csv } from 'src/app/csv';
 
-const DEFAULT_URL =
-  'https://jlg-consulting.com/dataviz/jlg_consulting_france_clients.csvp';
-
 @Component({
   selector: 'app-france-map',
   templateUrl: './france-map.component.html',
@@ -23,7 +21,7 @@ const DEFAULT_URL =
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
-  csv: Csv;
+  @Input() csv: Csv;
   csvContent: string;
   map: L.Map;
   svg: any;
@@ -41,13 +39,7 @@ export class FranceMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(async (qp) => {
-      if (!qp.internal) {
-        this.state.setCsvpFilename(validURL(qp.url) ? qp.url : DEFAULT_URL);
-        await this.state.loadFileFromURL();
-      }
-      this.refresh();
-    });
+    this.refresh();
   }
 
   async init() {
@@ -75,8 +67,6 @@ export class FranceMapComponent implements OnInit {
   async refresh() {
     try {
       await this.init();
-
-      this.csv = new Csv();
 
       this.title = this.csv.getCommandValue('title') || this.title;
       this.color = this.csv.getCommandValue('color') || this.color;

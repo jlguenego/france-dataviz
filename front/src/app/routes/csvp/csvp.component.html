@@ -1,1 +1,2 @@
-<app-france-map></app-france-map>
+<app-france-map *ngIf="isMap" [csv]="csv"></app-france-map>
+<app-planning *ngIf="isPlanning" [csv]="csv"></app-planning>
