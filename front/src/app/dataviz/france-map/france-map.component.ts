@@ -25,12 +25,14 @@ const DEFAULT_URL =
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
+  csvContent: string;
   map: L.Map;
   svg: any;
   data: any[];
   label = '';
 
   title = '';
+  color = 'red';
 
   constructor(
     private elt: ElementRef,
@@ -71,23 +73,32 @@ export class FranceMapComponent implements OnInit {
     await this.dataviz.waitForInit();
   }
 
+  parseOptions() {
+    const commentArray = this.csvContent.split(/[\r\n]+/).filter((row) => {
+      return row.startsWith('# ');
+    });
+
+    const getValue = (key: string) => commentArray.filter(r => r.startsWith('# ' + key + '='))[0]?.substr(('# ' + key + '=').length);
+
+    this.title = getValue('title');
+    this.color = getValue('color') || this.color;
+  }
+
   async refresh() {
     try {
       await this.init();
-      const csvContent = localStorage.getItem('current-csv-content');
-      if (!csvContent) {
+      this.csvContent = localStorage.getItem('current-csv-content');
+      if (!this.csvContent) {
         return;
       }
 
-      // get the title
-      const titleComment = csvContent.split(/[\r\n]+/).filter((row) => {
-        return row.startsWith('# title=');
-      });
-      if (titleComment.length) {
-        this.title = titleComment[0].replace(/^# title=/, '');
-      }
+      this.parseOptions();
+
       // filter comment.
-      const filteredContent = csvContent.replace(/^[#@][^\r\n]+[\r\n]+/gm, '');
+      const filteredContent = this.csvContent.replace(
+        /^[#@][^\r\n]+[\r\n]+/gm,
+        ''
+      );
       // remove all empty lines.
       const filterEmptyLines = filteredContent
         .replace(/^[\r\n]+/gm, '\n')
@@ -136,16 +147,17 @@ export class FranceMapComponent implements OnInit {
         feature
           .enter()
           .append('circle')
-          .style('stroke', 'black')
-          .style('opacity', 0.6)
-          .style('fill', 'red')
-          .attr('r', 15)
+          .classed('d3-circle', true)
+          .style('fill', (d) => d.color || this.color)
+          .attr('r', (d) => d.value || 15)
           .attr('pointer-events', 'visible')
-          .on('mouseenter', (d, i, array) => {
+          .on('mouseenter', (d, i, nodes) => {
             this.label = d.label;
+            // d3.select(nodes[i]).classed('hovered', true);
           })
-          .on('mouseleave', (d, i, array) => {
+          .on('mouseleave', (d, i, nodes) => {
             this.label = '';
+            // d3.select(nodes[i]).classed('hovered', false);
           })
           .on('touchstart', (d, i, array) => {
             this.label = d.label;

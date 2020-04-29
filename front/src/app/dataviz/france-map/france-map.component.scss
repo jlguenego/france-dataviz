@@ -33,3 +33,11 @@ app-france-map {
 .d3-overlay {
   z-index: 999;
 }
+
+.d3-circle {
+  opacity: 0.6;
+  stroke: black;
+  &:hover {
+    stroke-width: 2;
+  }
+}
