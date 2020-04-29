@@ -73,9 +73,6 @@ export class FranceMapComponent implements OnInit {
       const content = this.csv.getContent();
       console.log('content: ', content);
       this.data = this.csv.data;
-
-      const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
-
       this.data.forEach((d: any) => {
         if (!('latitude' in d)) {
           let place = this.dataviz.zipcodes.find(
@@ -94,6 +91,8 @@ export class FranceMapComponent implements OnInit {
           +d.longitude + 0.01 * (Math.floor(Math.random() * 1000000) / 1000000)
         );
       });
+
+      const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
       const update = () => {
         console.log('update');

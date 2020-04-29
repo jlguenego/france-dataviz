@@ -1,19 +1,27 @@
-<div class="content"></div>
-<div class="rule">
-  <div class="days">
-    <div class="day" *ngFor="let d of days" [class.isWeekEnd]="isWeekEnd(d)">
-      <div class="dayOfWeek">{{ getDayOfWeek(d) }}</div>
-      <div class="dayOfMonth">{{ getDayOfMonth(d) }}</div>
-    </div>
+<div class="header">
+  <div class="title">{{ title }}</div>
+  <div class="label">{{ label }}&nbsp;</div>
+</div>
+
+<div class="content">
+  <div class="bars">
   </div>
-  <div class="weeks">
-    <div class="week" *ngFor="let w of weeks" [style.width]="w.width">
-      {{ w.label }}
+  <div class="rule">
+    <div class="days">
+      <div class="day" *ngFor="let d of days" [class.isWeekEnd]="isWeekEnd(d)">
+        <div class="dayOfWeek">{{ getDayOfWeek(d) }}</div>
+        <div class="dayOfMonth">{{ getDayOfMonth(d) }}</div>
+      </div>
     </div>
-  </div>
-  <div class="months">
-    <div class="month" *ngFor="let m of months" [style.width]="m.width">
-      {{ m.label }}
+    <div class="weeks">
+      <div class="week" *ngFor="let w of weeks" [style.width]="w.width">
+        {{ w.label }}
+      </div>
+    </div>
+    <div class="months">
+      <div class="month" *ngFor="let m of months" [style.width]="m.width">
+        {{ m.label }}
+      </div>
     </div>
   </div>
 </div>

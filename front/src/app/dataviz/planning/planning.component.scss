@@ -1,42 +1,87 @@
-:host {
+app-planning {
   display: flex;
   flex-flow: column;
   align-items: flex-start;
   width: 100%;
-  overflow-x: auto;
-}
 
-.content {
-  height: 10em;
-}
-
-.days {
-  display: flex;
-}
-
-.day {
-  border: 0.1em solid #ccc;
-  width: 2em;
-  text-align: center;
-  &.isWeekEnd {
-    background: #eee;
+  .header {
+    display: flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    // align-items: center;
+    background: #333;
+    color: white;
+    padding: 0;
+    .title {
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 18em;
+    }
+    .label {
+      flex-grow: 1;
+      background: #444;
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
-}
 
-.weeks {
-  display: flex;
-}
+  .content {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 100%;
+    font-size: 0.8em;
+    overflow-x: auto;
 
-.week {
-  border: 0.1em solid #ccc;
-  text-align: center;
-}
+    .bars {
+      height: 10em;
+      position: relative;
+      .bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
 
-.months {
-  display: flex;
-}
+    .days {
+      display: flex;
+    }
 
-.month {
-  border: 0.1em solid #ccc;
-  text-align: center;
+    .day {
+      border: 0.1em solid #ccc;
+      width: 2em;
+      text-align: center;
+      &.isWeekEnd {
+        background: #eee;
+      }
+    }
+
+    .weeks {
+      display: flex;
+    }
+
+    .week {
+      border: 0.1em solid #ccc;
+      text-align: center;
+    }
+
+    .months {
+      display: flex;
+    }
+
+    .month {
+      border: 0.1em solid #ccc;
+      text-align: center;
+    }
+
+    .bar {
+      width: 1.5em;
+      height: 5em;
+      background: blue;
+    }
+  }
 }
