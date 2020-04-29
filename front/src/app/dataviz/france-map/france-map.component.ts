@@ -3,9 +3,6 @@ import {
   OnInit,
   ElementRef,
   ViewEncapsulation,
-  Input,
-  OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 
 import * as L from 'leaflet';
@@ -78,7 +75,10 @@ export class FranceMapComponent implements OnInit {
       return row.startsWith('# ');
     });
 
-    const getValue = (key: string) => commentArray.filter(r => r.startsWith('# ' + key + '='))[0]?.substr(('# ' + key + '=').length);
+    const getValue = (key: string) =>
+      commentArray
+        .filter((r) => r.startsWith('# ' + key + '='))[0]
+        ?.substr(('# ' + key + '=').length);
 
     this.title = getValue('title');
     this.color = getValue('color') || this.color;
