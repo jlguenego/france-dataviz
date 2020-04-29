@@ -100,7 +100,7 @@ export class PlanningComponent implements OnInit {
         width: `${dayInWeek * 2}em`,
         label: 'Week ' + iday.format('ww'),
       });
-      iday = iday.clone().add(1, 'months');
+      iday = iday.clone().add(1, 'week');
     }
     this.weeks[this.weeks.length - 1] = {
       width: `${(iday.weekday() + 1) * 2}em`,
