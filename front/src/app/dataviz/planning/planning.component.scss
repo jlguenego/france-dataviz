@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+}
+
+.days {
+  display: flex;
+}
+
+.day {
+  border: 0.1em solid #eee;
+}
