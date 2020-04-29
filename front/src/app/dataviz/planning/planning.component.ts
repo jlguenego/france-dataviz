@@ -108,7 +108,7 @@ export class PlanningComponent implements OnInit {
     const maxHeight = 20;
     ((this.elt.nativeElement as Element).querySelector(
       '.bars'
-    ) as HTMLElement).style.height = `${maxHeight}em`;
+    ) as HTMLElement).style.height = `${maxHeight + 2}em`;
 
     const groups = this.csv.data.reduce((acc, r) => {
       const found = acc.find((row) => row.date === r.date);
