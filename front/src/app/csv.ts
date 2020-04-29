@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 export enum CsvType {
   MAP,
   PLANNING,
@@ -7,6 +9,7 @@ export class Csv {
   rawContent: string;
   comments: string[];
   contents: string[];
+  data: d3.DSVRowArray<string>;
 
   constructor() {
     this.rawContent = localStorage.getItem('current-csv-content');
@@ -29,6 +32,8 @@ export class Csv {
       .filter((r) => !r.startsWith('#'))
       // filter empty lines
       .filter((r) => r !== '');
+
+      this.data = d3.csvParse(this.contents.join('\n'));
   }
 
   hasColumn(key: string): boolean {
@@ -52,4 +57,5 @@ export class Csv {
     }
     return CsvType.PLANNING;
   }
+
 }

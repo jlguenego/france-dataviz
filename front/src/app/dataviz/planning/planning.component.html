@@ -1,5 +1,14 @@
+<div class="content"></div>
 <div class="rule">
   <div class="days">
-    <div class="day" *ngFor="let d of days">{{ getDay(d) }} </div>
+    <div class="day" *ngFor="let d of days" [class.isWeekEnd]="isWeekEnd(d)">
+      <div class="dayOfWeek">{{ getDayOfWeek(d) }}</div>
+      <div class="dayOfMonth">{{ getDayOfMonth(d) }}</div>
+    </div>
+  </div>
+  <div class="months">
+    <div class="month" *ngFor="let m of months" [style.width]="m.width">
+      {{ m.label }}
+    </div>
   </div>
 </div>

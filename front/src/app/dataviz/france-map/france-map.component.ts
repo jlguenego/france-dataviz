@@ -72,8 +72,7 @@ export class FranceMapComponent implements OnInit {
       this.color = this.csv.getCommandValue('color') || this.color;
       const content = this.csv.getContent();
       console.log('content: ', content);
-      const csvData = d3.csvParse(content);
-      this.data = csvData;
+      this.data = this.csv.data;
 
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
