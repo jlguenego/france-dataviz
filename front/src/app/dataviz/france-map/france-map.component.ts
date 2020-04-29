@@ -25,7 +25,6 @@ const DEFAULT_URL =
   encapsulation: ViewEncapsulation.None,
 })
 export class FranceMapComponent implements OnInit {
-  isInitialized = false;
   map: L.Map;
   svg: any;
   data: any[];
@@ -42,13 +41,10 @@ export class FranceMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (qp) => {
-      if (qp.internal) {
-        // internal file was loaded during the form submission.
-        this.refresh();
-        return;
+      if (!qp.internal) {
+        this.state.setCsvpFilename(validURL(qp.url) ? qp.url : DEFAULT_URL);
+        await this.state.loadFileFromURL();
       }
-      this.state.setCsvpFilename(validURL(qp.url) ? qp.url : DEFAULT_URL);
-      await this.state.loadFileFromURL();
       this.refresh();
     });
   }
@@ -77,10 +73,7 @@ export class FranceMapComponent implements OnInit {
 
   async refresh() {
     try {
-      if (!this.isInitialized) {
-        await this.init();
-        this.isInitialized = true;
-      }
+      await this.init();
       const csvContent = localStorage.getItem('current-csv-content');
       if (!csvContent) {
         return;
