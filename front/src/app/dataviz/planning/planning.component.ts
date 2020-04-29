@@ -6,7 +6,7 @@ import { Moment } from 'moment';
 
 const FORMAT = 'YYYYMMDD';
 
-interface MonthStruct {
+interface IntervalStruct {
   width: string;
   label: string;
 }
@@ -19,7 +19,8 @@ interface MonthStruct {
 export class PlanningComponent implements OnInit {
   @Input() csv: Csv;
   days: Moment[];
-  months: MonthStruct[];
+  months: IntervalStruct[];
+  weeks: IntervalStruct[];
   constructor() {}
 
   ngOnInit(): void {
@@ -52,7 +53,10 @@ export class PlanningComponent implements OnInit {
     while (iday.isBefore(end)) {
       console.log('iday: ', iday);
       console.log('day in month', iday.daysInMonth());
-      const dayInMonth = (iday === begin) ? iday.daysInMonth() - iday.day() - 1 : iday.daysInMonth();
+      const dayInMonth =
+        iday === begin
+          ? iday.daysInMonth() - iday.day() - 1
+          : iday.daysInMonth();
 
       this.months.push({
         width: `${dayInMonth * 2}em`,
@@ -63,6 +67,25 @@ export class PlanningComponent implements OnInit {
     this.months[this.months.length - 1] = {
       width: `${(iday.day() + 1) * 2}em`,
       label: iday.format('MMMM YYYY'),
+    };
+
+    // week nbr
+    this.weeks = [];
+    iday = begin;
+    while (iday.isBefore(end)) {
+      console.log('iday: ', iday);
+      console.log('day in week', iday.weekday());
+      const dayInWeek = iday === begin ? 7 - iday.weekday() : 7;
+
+      this.weeks.push({
+        width: `${dayInWeek * 2}em`,
+        label: 'Week ' + iday.format('ww'),
+      });
+      iday = iday.clone().add(1, 'months');
+    }
+    this.weeks[this.weeks.length - 1] = {
+      width: `${(iday.weekday() + 1) * 2}em`,
+      label: 'Week ' + iday.format('ww'),
     };
   }
 

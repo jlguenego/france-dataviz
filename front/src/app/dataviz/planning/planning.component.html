@@ -6,6 +6,11 @@
       <div class="dayOfMonth">{{ getDayOfMonth(d) }}</div>
     </div>
   </div>
+  <div class="weeks">
+    <div class="week" *ngFor="let w of weeks" [style.width]="w.width">
+      {{ w.label }}
+    </div>
+  </div>
   <div class="months">
     <div class="month" *ngFor="let m of months" [style.width]="m.width">
       {{ m.label }}

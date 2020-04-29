@@ -23,6 +23,15 @@
   }
 }
 
+.weeks {
+  display: flex;
+}
+
+.week {
+  border: 0.1em solid #ccc;
+  text-align: center;
+}
+
 .months {
   display: flex;
 }
