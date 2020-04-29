@@ -71,7 +71,6 @@ export class FranceMapComponent implements OnInit {
       this.title = this.csv.getCommandValue('title') || this.title;
       this.color = this.csv.getCommandValue('color') || this.color;
       const content = this.csv.getContent();
-      console.log('content: ', content);
       this.data = this.csv.data;
       this.data.forEach((d: any) => {
         if (!('latitude' in d)) {
@@ -95,7 +94,6 @@ export class FranceMapComponent implements OnInit {
       const g = d3.select(this.svg._rootGroup).classed('d3-overlay', true);
 
       const update = () => {
-        console.log('update');
 
         const feature = g.selectAll('circle').data(this.data);
 
@@ -146,7 +144,7 @@ export class FranceMapComponent implements OnInit {
         );
         return;
       }
-      console.log('error: ', error);
+      console.error('error: ', error);
     }
   }
 }

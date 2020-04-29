@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.route.queryParams.subscribe((qp) => {
-      console.log('qp: ', qp);
       this.isFullScreen = qp.isFullScreen === 'true';
     });
   }

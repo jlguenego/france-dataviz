@@ -44,6 +44,9 @@ app-planning {
         position: absolute;
         bottom: 0;
         left: 0;
+        width: 1.5em;
+        height: 2em;
+        background: blue;
       }
     }
 
@@ -78,10 +81,5 @@ app-planning {
       text-align: center;
     }
 
-    .bar {
-      width: 1.5em;
-      height: 5em;
-      background: blue;
-    }
   }
 }

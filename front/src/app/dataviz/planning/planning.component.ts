@@ -32,7 +32,6 @@ export class PlanningComponent implements OnInit {
   weeks: IntervalStruct[];
 
   scale = 1;
-  offset = 2;
 
   color = 'green';
   label = '';
@@ -56,22 +55,17 @@ export class PlanningComponent implements OnInit {
 
   buildCalendar(): void {
     const dates = this.csv.data.map((d) => +d.date);
-    console.log('dates: ', dates);
     this.begin = moment('' + Math.min(...dates), FORMAT);
     const end = moment('' + Math.max(...dates), FORMAT);
     const days = Math.ceil(moment.duration(end.diff(this.begin)).asDays());
-    console.log('days: ', days);
     this.days = new Array(days)
       .fill(0)
       .map((n, i) => this.begin.clone().add(i, 'days'));
-    console.log('this.days: ', this.days);
 
     // months
     this.months = [];
     let iday = this.begin;
     while (iday.isBefore(end)) {
-      console.log('iday: ', iday);
-      console.log('day in month', iday.daysInMonth());
       const dayInMonth =
         iday === this.begin
           ? iday.daysInMonth() - iday.day() - 1
@@ -92,8 +86,6 @@ export class PlanningComponent implements OnInit {
     this.weeks = [];
     iday = this.begin;
     while (iday.isBefore(end)) {
-      console.log('iday: ', iday);
-      console.log('day in week', iday.weekday());
       const dayInWeek = iday === this.begin ? 7 - iday.weekday() : 7;
 
       this.weeks.push({
@@ -113,12 +105,22 @@ export class PlanningComponent implements OnInit {
   }
 
   setScale() {
-    const maxHeight = 20 + this.offset;
+    const maxHeight = 20;
     ((this.elt.nativeElement as Element).querySelector(
       '.bars'
     ) as HTMLElement).style.height = `${maxHeight}em`;
 
-    const maxValue = Math.max(...this.csv.data.map((d) => +d.value));
+    const groups = this.csv.data.reduce((acc, r) => {
+      const found = acc.find((row) => row.date === r.date);
+      if (found) {
+        found.value = '' + (+found.value + +r.value);
+      } else {
+        acc.push({ date: r.date, value: r.value });
+      }
+      return acc;
+    }, []);
+
+    const maxValue = Math.max(...groups.map((d) => +d.value));
     this.scale = maxHeight / maxValue;
   }
 
@@ -128,15 +130,20 @@ export class PlanningComponent implements OnInit {
     );
 
     const update = () => {
-      console.log('update', this.csv.data);
+      const data = this.csv.data.reduce((acc, r, i) => {
+        const valueSumForGivenDate = acc.filter((row) => row.date === r.date).map(r => +r.value).reduce((acc, r) => acc + r, 0);
+        r.__index = valueSumForGivenDate + '';
+        acc.push(r);
+        return acc;
+      }, []);
 
-      const feature = bars.selectAll('div.bar').data(this.csv.data);
+      const feature = bars.selectAll('div.bar').data(data);
 
       const transform = (d: any) => {
         const days = Math.round(
           moment.duration(moment(d.date, FORMAT).diff(this.begin)).asDays()
         );
-        return `translateX(${days * 2}em)`;
+        return `translate(${days * 2}em, -${d.__index * this.scale}em)`;
       };
 
       feature
@@ -145,10 +152,12 @@ export class PlanningComponent implements OnInit {
         .classed('bar', true)
         .attr('title', (d) => d.value)
         .style('background-color', (d) => d.color || this.color)
-        .style(
-          'height',
-          (d) => this.offset + +d.value * this.scale + 'em' || '1em'
-        )
+        .style('height', (d) => {
+          const value = Math.round(+d.value * this.scale * 1000) / 1000;
+          const result = value + 'em';
+          console.log('result: ', result);
+          return result;
+        })
         .on('mouseenter', (d, i, nodes) => {
           this.label = d.value + ' - ' + d.label;
           // d3.select(nodes[i]).classed('hovered', true);

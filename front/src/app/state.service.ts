@@ -34,24 +34,21 @@ export class StateService {
   async loadFileFromInternal(file: Blob) {
     try {
       if (file) {
-        console.log('file found', file);
         const fileReader = new FileReader();
         fileReader.readAsText(file, 'UTF-8');
         fileReader.onload = (evt) => {
-          console.log('evt.target.result', evt.target.result);
           const str = (evt.target.result as string)
             .split('\n')
             .filter(
               (row) => !row.startsWith('csvp(`') && !row.startsWith('`);')
             )
             .join('\n');
-          console.log('str: ', str);
 
           localStorage.setItem('current-csv-content', str);
           this.setCsvpFilename(undefined);
         };
         fileReader.onerror = function (evt) {
-          console.log('evt: ', evt);
+          console.error('evt: ', evt);
         };
       }
     } catch (error) {

@@ -18,12 +18,10 @@ export class LoadFileFormComponent implements OnInit {
   ngOnInit(): void {}
 
   async submit() {
-    console.log('submit', this.f.value);
     this.router.navigateByUrl('/csvp?internal=true');
   }
 
   async onFileChange(evt: Event) {
-    console.log('evt: ', evt);
     const file = (event.target as HTMLInputElement).files[0];
     if (file) {
       await this.state.loadFileFromInternal(file);

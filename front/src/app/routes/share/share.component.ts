@@ -21,7 +21,6 @@ export class ShareComponent implements OnInit {
   }
 
   copy() {
-    console.log('this.state.iframeCode', this.state.iframeCode);
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
