@@ -37,7 +37,8 @@ export class Csv {
   }
 
   hasColumn(key: string): boolean {
-    return this.contents[0].split(',').includes(key);
+    const array = this.contents[0].split(',').map(c => c.replace(/^['"]?(.*?)['"]?$/, '$1'));
+    return array.includes(key);
   }
 
   getCommandValue(key: string) {
