@@ -29,7 +29,7 @@ export function csvp(url: string): Promise<string> {
 function isCsvFormat(str: string) {
   const array = str
     .split(/[\r\n]/)
-    .filter((row) => row.match(/^[^#@]/) && row !== '');
+    .filter((row) => row.match(/^[^#]/) && row !== '');
   const header = array.shift();
   const length = header.split(',').length;
   const isSameLength = array.reduce(
