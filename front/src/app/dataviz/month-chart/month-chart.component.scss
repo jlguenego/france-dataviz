@@ -1,0 +1,75 @@
+app-month-chart {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  width: 100%;
+
+  .header {
+    display: flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    // align-items: center;
+    background: #333;
+    color: white;
+    padding: 0;
+    .title {
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 18em;
+    }
+    .label {
+      flex-grow: 1;
+      background: #444;
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 100%;
+    font-size: 0.8em;
+    overflow-x: auto;
+
+    .bars {
+      height: 10em;
+      position: relative;
+      .bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1.5em;
+        height: 2em;
+        background: blue;
+      }
+    }
+
+    .months {
+      display: flex;
+    }
+
+    .month {
+      border: 0.1em solid #ccc;
+      width: 2em;
+      text-align: center;
+      &.isWeekEnd {
+        background: #eee;
+      }
+    }
+
+    .years {
+      display: flex;
+    }
+
+    .year {
+      border: 0.1em solid #ccc;
+      text-align: center;
+    }
+  }
+}

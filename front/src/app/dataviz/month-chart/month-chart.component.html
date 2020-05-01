@@ -1,1 +1,22 @@
-<p>month-chart works!</p>
+<div class="header">
+  <div class="title">{{ title }}</div>
+  <div class="label">{{ label }}&nbsp;</div>
+</div>
+
+<div class="content">
+  <div class="bars">
+  </div>
+  <div class="rule">
+    <div class="months">
+      <div class="month" *ngFor="let m of months">
+        {{ getMonthInitial(m) }}
+      </div>
+    </div>
+    <div class="years">
+      <div class="year" *ngFor="let y of years" [style.width]="y.width">
+        {{ y.label }}
+      </div>
+    </div>
+
+  </div>
+</div>
