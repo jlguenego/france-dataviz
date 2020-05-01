@@ -13,6 +13,7 @@ import { ShareComponent } from './routes/share/share.component';
 import { LoadFileFormComponent } from './dataviz/load-file-form/load-file-form.component';
 import { ExamplesComponent } from './routes/examples/examples.component';
 import { PlanningComponent } from './dataviz/planning/planning.component';
+import { MonthChartComponent } from './dataviz/month-chart/month-chart.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PlanningComponent } from './dataviz/planning/planning.component';
     LoadFileFormComponent,
     ExamplesComponent,
     PlanningComponent,
+    MonthChartComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],

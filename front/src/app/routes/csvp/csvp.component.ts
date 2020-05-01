@@ -15,6 +15,7 @@ const DEFAULT_URL =
 export class CsvpComponent implements OnInit {
   isMap = false;
   isPlanning = false;
+  isMonthChart = false;
   csv: Csv;
   constructor(private route: ActivatedRoute, private state: StateService) {}
 
@@ -27,6 +28,7 @@ export class CsvpComponent implements OnInit {
       this.csv = new Csv();
       this.isMap = this.csv.getType() === CsvType.MAP;
       this.isPlanning = this.csv.getType() === CsvType.PLANNING;
+      this.isMonthChart = this.csv.getType() === CsvType.MONTH_CHART;
     });
   }
 }

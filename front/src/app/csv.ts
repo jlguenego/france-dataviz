@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 
 export enum CsvType {
   MAP,
+  MONTH_CHART,
   PLANNING,
 }
 
@@ -55,6 +56,9 @@ export class Csv {
   getType(): CsvType {
     if (this.hasColumn('zipcode')) {
       return CsvType.MAP;
+    }
+    if (this.hasColumn('month')) {
+      return CsvType.MONTH_CHART;
     }
     return CsvType.PLANNING;
   }
