@@ -14,6 +14,7 @@ import { LoadFileFormComponent } from './dataviz/load-file-form/load-file-form.c
 import { ExamplesComponent } from './routes/examples/examples.component';
 import { PlanningComponent } from './dataviz/planning/planning.component';
 import { MonthChartComponent } from './dataviz/month-chart/month-chart.component';
+import { TreeComponent } from './dataviz/tree/tree.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MonthChartComponent } from './dataviz/month-chart/month-chart.component
     ExamplesComponent,
     PlanningComponent,
     MonthChartComponent,
+    TreeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],

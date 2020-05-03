@@ -4,6 +4,7 @@ export enum CsvType {
   MAP,
   MONTH_CHART,
   PLANNING,
+  TREE
 }
 
 export class Csv {
@@ -59,6 +60,9 @@ export class Csv {
     }
     if (this.hasColumn('month')) {
       return CsvType.MONTH_CHART;
+    }
+    if (this.hasColumn('parent')) {
+      return CsvType.TREE;
     }
     return CsvType.PLANNING;
   }

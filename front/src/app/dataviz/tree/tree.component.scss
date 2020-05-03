@@ -1,0 +1,53 @@
+app-tree {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  width: 100%;
+
+  .header {
+    display: flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    // align-items: center;
+    background: #333;
+    color: white;
+    padding: 0;
+    .title {
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 18em;
+    }
+    .label {
+      flex-grow: 1;
+      background: #444;
+      padding: 0.5em 0.3em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .content {
+    .node {
+      cursor: pointer;
+    }
+
+    .node circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+
+    .node text {
+      font: 12px sans-serif;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 2px;
+    }
+  }
+}

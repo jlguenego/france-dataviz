@@ -1,3 +1,4 @@
 <app-france-map *ngIf="isMap" [csv]="csv"></app-france-map>
 <app-planning *ngIf="isPlanning" [csv]="csv"></app-planning>
 <app-month-chart *ngIf="isMonthChart" [csv]="csv"></app-month-chart>
+<app-tree *ngIf="csv.getType() === CSV_TYPE_TREE" [csv]="csv"></app-tree>

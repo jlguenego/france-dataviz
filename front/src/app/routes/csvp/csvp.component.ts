@@ -13,6 +13,8 @@ const DEFAULT_URL =
   styleUrls: ['./csvp.component.scss'],
 })
 export class CsvpComponent implements OnInit {
+  CSV_TYPE_TREE = CsvType.TREE;
+
   isMap = false;
   isPlanning = false;
   isMonthChart = false;
