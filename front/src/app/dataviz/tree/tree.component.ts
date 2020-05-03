@@ -2,6 +2,17 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Csv } from 'src/app/csv';
 import * as d3 from 'd3';
 
+interface CsvRow {
+  child: string;
+  parent: string;
+  label: string;
+}
+
+interface Root extends d3.HierarchyNode<d3.HierarchyNode<CsvRow>> {
+  x0: number;
+  y0: number;
+}
+
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
@@ -19,43 +30,16 @@ export class TreeComponent implements OnInit {
   }
 
   refresh() {
-    const data = this.csv.data;
-    console.log('data: ', data);
-
     const stratify = d3
-      .stratify()
-      .id((d: d3.DSVRowString) => d.child)
-      .parentId((d: d3.DSVRowString) => d.parent);
+      .stratify<CsvRow>()
+      .id((d) => d.child)
+      .parentId((d) => d.parent);
     console.log('stratify: ', stratify);
-    const tree = stratify(data);
-    console.log('tree: ', tree);
-
-    const treeData = [
-      {
-        name: 'Top Level',
-        parent: 'null',
-        children: [
-          {
-            name: 'Level 2: A',
-            parent: 'Top Level',
-            children: [
-              {
-                name: 'Son of A',
-                parent: 'Level 2: A',
-              },
-              {
-                name: 'Daughter of A',
-                parent: 'Level 2: A',
-              },
-            ],
-          },
-          {
-            name: 'Level 2: B',
-            parent: 'Top Level',
-          },
-        ],
-      },
-    ];
+    const treeData = stratify((this.csv.data as unknown) as CsvRow[]);
     console.log('treeData: ', treeData);
+
+    const root = d3.hierarchy(treeData);
+    console.log('root: ', root);
+
   }
 }
