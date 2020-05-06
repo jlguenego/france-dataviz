@@ -4,7 +4,8 @@ export enum CsvType {
   MAP,
   MONTH_CHART,
   PLANNING,
-  TREE
+  TREE,
+  TREEMAP,
 }
 
 export class Csv {
@@ -35,11 +36,13 @@ export class Csv {
       // filter empty lines
       .filter((r) => r !== '');
 
-      this.data = d3.csvParse(this.contents.join('\n'));
+    this.data = d3.csvParse(this.contents.join('\n'));
   }
 
   hasColumn(key: string): boolean {
-    const array = this.contents[0].split(',').map(c => c.replace(/^['"]?(.*?)['"]?$/, '$1'));
+    const array = this.contents[0]
+      .split(',')
+      .map((c) => c.replace(/^['"]?(.*?)['"]?$/, '$1'));
     return array.includes(key);
   }
 
@@ -55,6 +58,10 @@ export class Csv {
   }
 
   getType(): CsvType {
+    const type = this.getCommandValue('type');
+    if (type === 'treemap') {
+      return CsvType.TREEMAP;
+    }
     if (this.hasColumn('zipcode')) {
       return CsvType.MAP;
     }
@@ -66,5 +73,4 @@ export class Csv {
     }
     return CsvType.PLANNING;
   }
-
 }

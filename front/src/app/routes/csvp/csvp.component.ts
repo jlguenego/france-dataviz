@@ -14,6 +14,7 @@ const DEFAULT_URL =
 })
 export class CsvpComponent implements OnInit {
   CSV_TYPE_TREE = CsvType.TREE;
+  CSV_TYPE_TREEMAP = CsvType.TREEMAP;
 
   isMap = false;
   isPlanning = false;

@@ -15,6 +15,7 @@ import { ExamplesComponent } from './routes/examples/examples.component';
 import { PlanningComponent } from './dataviz/planning/planning.component';
 import { MonthChartComponent } from './dataviz/month-chart/month-chart.component';
 import { TreeComponent } from './dataviz/tree/tree.component';
+import { TreemapComponent } from './dataviz/treemap/treemap.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TreeComponent } from './dataviz/tree/tree.component';
     PlanningComponent,
     MonthChartComponent,
     TreeComponent,
+    TreemapComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
