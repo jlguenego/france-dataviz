@@ -14,11 +14,6 @@ interface CsvRow {
   label: string;
 }
 
-interface Root extends d3.HierarchyNode<d3.HierarchyNode<CsvRow>> {
-  x0: number;
-  y0: number;
-}
-
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
