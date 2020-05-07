@@ -30,6 +30,22 @@ app-treemap {
   }
 
   .content {
-    width: 60em;
+    flex-grow: 1;
+    width: 100%;
+    svg {
+      width: 1000px;
+      height: 500px;
+      overflow-x: auto;
+      g {
+        rect {
+          fill: green;
+          opacity: 0.2;
+        }
+      }
+
+      text {
+        font-size: 0.5em;
+      }
+    }
   }
 }
