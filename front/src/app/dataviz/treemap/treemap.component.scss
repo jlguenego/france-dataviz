@@ -36,11 +36,17 @@ app-treemap {
       flex-flow: row wrap;
       padding: 0.3em;
       margin: 0.3em;
+      align-items: center;
     }
     div.children {
       display: flex;
       flex-flow: row wrap;
+      align-items: stretch;
       padding: 0.3em;
+    }
+
+    div.description {
+      font-size: 0.7em;
     }
   }
 }

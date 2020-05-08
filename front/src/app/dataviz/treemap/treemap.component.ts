@@ -6,6 +6,7 @@ interface CsvRow {
   child: string;
   parent: string;
   label: string;
+  description?: string;
 }
 
 @Component({
@@ -55,7 +56,10 @@ export class TreemapComponent implements OnInit {
       dom: HTMLElement
     ) {
       const hue = getColor(node);
-      const label = node.data.data.label;
+      const description = node.data.data.description;
+      const label = description
+        ? `<div>${node.data.data.label}</div><div class="description">(${node.data.data.description})</div>`
+        : `${node.data.data.label}`;
       const domNode = document.createElement('div');
       domNode.classList.add('node');
       domNode.style.background = `hsla(${hue}, 100%, 80%, 0.2)`;
