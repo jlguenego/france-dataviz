@@ -6,7 +6,6 @@ interface CsvRow {
   child: string;
   parent: string;
   label: string;
-  value?: number;
 }
 
 @Component({
@@ -27,86 +26,56 @@ export class TreemapComponent implements OnInit {
   }
 
   async refresh() {
-    const data = ((this.csv.data as unknown) as CsvRow[]).map(d => {
-      d.value = d.label.length;
-      return d;
-    });
-    console.log('data: ', data);
     const stratify = d3
       .stratify<CsvRow>()
       .id(d => d.child)
       .parentId(d => d.parent);
-    console.log('stratify: ', stratify);
-    const stratifiedData = stratify(data);
-
-    stratifiedData.sum(function (d) {
-      return d.value;
-    });
-
+    const stratifiedData = stratify((this.csv.data as unknown) as CsvRow[]);
     console.log('stratifiedData: ', stratifiedData);
 
     const hierarchy = d3.hierarchy(stratifiedData);
     console.log('hierarchy: ', hierarchy);
 
-    const tile = function (
-      node: d3.HierarchyRectangularNode<any>,
-      x0: number,
-      y0: number,
-      x1: number,
-      y1: number
+    function getColor(node: d3.HierarchyNode<d3.HierarchyNode<CsvRow>>) {
+      // switch (node.depth) {
+      //   case 0:
+      //     return 240;
+      //   case 1:
+      //     return 240;
+      //   case 2:
+      //     return 0;
+      //   default:
+      //     return 0;
+      // }
+      return 240;
+    }
+
+    function render(
+      node: d3.HierarchyNode<d3.HierarchyNode<CsvRow>>,
+      dom: HTMLElement
     ) {
-      console.log('node: ', node);
-      console.log('x0: ', x0);
-      console.log('y0: ', y0);
-      console.log('x1: ', x1);
-      console.log('y1: ', y1);
+      const hue = getColor(node);
+      const label = node.data.data.label;
+      const domNode = document.createElement('div');
+      domNode.classList.add('node');
+      domNode.style.background = `hsla(${hue}, 100%, 80%, 0.2)`;
+      domNode.style.border = `0.1em solid hsla(${hue}, 100%, 50%, 0.2)`;
+      domNode.innerHTML = `<div class="label">${label}</div>`;
+      dom.appendChild(domNode);
+      if (!node.children) {
+        return;
+      }
+      if (node.children.length === 0) {
+        return;
+      }
+      const childrenElem = document.createElement('div');
+      childrenElem.classList.add('children');
+      domNode.appendChild(childrenElem);
+      for (let child of node.children) {
+        render(child, childrenElem);
+      }
+    }
 
-      return d3.treemapBinary(node, x0, y0, x1, y1);
-    };
-
-    const treemapLayout = d3
-      .treemap<d3.HierarchyNode<CsvRow>>()
-      .tile(tile)
-      .size([1500, 2000])
-      .padding(20)
-      .round(true);
-
-    const root = treemapLayout(hierarchy);
-    console.log('root: ', root);
-
-    d3.select('div.content')
-      .append('svg')
-      .append('g')
-      .selectAll('rect')
-      .data(root.descendants())
-      .enter()
-      .append('rect')
-      .attr('x', d => d.x0)
-      .attr('y', d => d.y0)
-      .attr('width', d => d.x1 - d.x0)
-      .attr('height', d => {
-        return d.y1 - d.y0;
-      });
-
-    const nodes = d3
-      .select('svg g')
-      .selectAll('g')
-      .data(root.descendants())
-      .enter()
-      .append('g')
-      .attr('transform', d => 'translate(' + [d.x0, d.y0] + ')');
-
-    nodes
-      .append('rect')
-      .attr('width', d => {
-        return d.x1 - d.x0;
-      })
-      .attr('height', d => d.y1 - d.y0);
-
-    nodes
-      .append('text')
-      .attr('dx', 4)
-      .attr('dy', 14)
-      .text(d => d.data.data.label);
+    render(hierarchy, document.querySelector('div.content'));
   }
 }

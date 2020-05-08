@@ -31,21 +31,16 @@ app-treemap {
 
   .content {
     flex-grow: 1;
-    width: 100%;
-    svg {
-      width: 100%;
-      height: 2000px;
-      overflow-x: auto;
-      g {
-        rect {
-          fill: green;
-          opacity: 0.2;
-        }
-      }
-
-      text {
-        font-size: 0.5em;
-      }
+    div.node {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 0.3em;
+      margin: 0.3em;
+    }
+    div.children {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 0.3em;
     }
   }
 }
