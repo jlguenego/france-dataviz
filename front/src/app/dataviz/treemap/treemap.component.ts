@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { Csv } from 'src/app/csv';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
+import { Csv } from 'src/app/csv';
 
 interface CsvRow {
   child: string;
   parent: string;
   label: string;
   value?: number;
-  x0?: number;
 }
 
 @Component({
@@ -28,32 +27,35 @@ export class TreemapComponent implements OnInit {
   }
 
   async refresh() {
-    // const data = ((this.csv.data as unknown) as CsvRow[]).map(d => {
-    //   d.value = 10;
-    //   return d;
-    // });
-    const data = (this.csv.data as unknown) as CsvRow[];
+    const data = ((this.csv.data as unknown) as CsvRow[]).map(d => {
+      d.value = d.label.length;
+      return d;
+    });
     console.log('data: ', data);
     const stratify = d3
       .stratify<CsvRow>()
-      .id((d) => d.child)
-      .parentId((d) => d.parent);
+      .id(d => d.child)
+      .parentId(d => d.parent);
     console.log('stratify: ', stratify);
     const stratifiedData = stratify(data);
 
     stratifiedData.sum(function (d) {
-      return d.value || 100;
+      return d.value;
     });
 
     console.log('stratifiedData: ', stratifiedData);
 
-    const root = d3.hierarchy(stratifiedData);
-    console.log('root: ', root);
+    const hierarchy = d3.hierarchy(stratifiedData);
+    console.log('hierarchy: ', hierarchy);
 
-    const treemapLayout = d3.treemap();
-    treemapLayout.size([1000, 1000]).padding(20);
+    const treemapLayout = d3
+      .treemap<d3.HierarchyNode<CsvRow>>()
+      .tile(d3.treemapBinary)
+      .size([1500, 2000])
+      .padding(20)
+      .round(false);
 
-    treemapLayout(root);
+    const root = treemapLayout(hierarchy);
     console.log('root: ', root);
 
     d3.select('div.content')
@@ -63,45 +65,32 @@ export class TreemapComponent implements OnInit {
       .data(root.descendants())
       .enter()
       .append('rect')
-      .attr('x', function (d: any) {
-        // console.log('d: ', d);
-        return d.x0;
-      })
-      .attr('y', function (d: any) {
-        return d.y0;
-      })
-      .attr('width', function (d: any) {
-        return d.x1 - d.x0;
-      })
-      .attr('height', function (d: any) {
+      .attr('x', d => d.x0)
+      .attr('y', d => d.y0)
+      .attr('width', d => d.x1 - d.x0)
+      .attr('height', d => {
         return d.y1 - d.y0;
       });
 
-    var nodes = d3
+    const nodes = d3
       .select('svg g')
       .selectAll('g')
       .data(root.descendants())
       .enter()
       .append('g')
-      .attr('transform', function (d: any) {
-        return 'translate(' + [d.x0, d.y0] + ')';
-      });
+      .attr('transform', d => 'translate(' + [d.x0, d.y0] + ')');
 
     nodes
       .append('rect')
-      .attr('width', function (d: any) {
+      .attr('width', d => {
         return d.x1 - d.x0;
       })
-      .attr('height', function (d: any) {
-        return d.y1 - d.y0;
-      });
+      .attr('height', d => d.y1 - d.y0);
 
     nodes
       .append('text')
       .attr('dx', 4)
       .attr('dy', 14)
-      .text(function (d) {
-        return d.data.data.label;
-      });
+      .text(d => d.data.data.label);
   }
 }
