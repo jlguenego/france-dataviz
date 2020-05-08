@@ -48,12 +48,28 @@ export class TreemapComponent implements OnInit {
     const hierarchy = d3.hierarchy(stratifiedData);
     console.log('hierarchy: ', hierarchy);
 
+    const tile = function (
+      node: d3.HierarchyRectangularNode<any>,
+      x0: number,
+      y0: number,
+      x1: number,
+      y1: number
+    ) {
+      console.log('node: ', node);
+      console.log('x0: ', x0);
+      console.log('y0: ', y0);
+      console.log('x1: ', x1);
+      console.log('y1: ', y1);
+
+      return d3.treemapBinary(node, x0, y0, x1, y1);
+    };
+
     const treemapLayout = d3
       .treemap<d3.HierarchyNode<CsvRow>>()
-      .tile(d3.treemapBinary)
+      .tile(tile)
       .size([1500, 2000])
       .padding(20)
-      .round(false);
+      .round(true);
 
     const root = treemapLayout(hierarchy);
     console.log('root: ', root);
