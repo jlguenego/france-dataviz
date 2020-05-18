@@ -30,46 +30,52 @@ app-month-chart {
   }
 
   .content {
+    flex-grow: 1;
     display: flex;
-    flex-flow: column;
-    align-items: flex-start;
+    align-items: center;
     max-width: 100%;
-    font-size: 0.8em;
     overflow-x: auto;
-
-    .bars {
-      height: 10em;
-      position: relative;
-      .bar {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 1.5em;
-        height: 2em;
-        background: blue;
-      }
-    }
-
-    .months {
+    .graph {
       display: flex;
-    }
+      flex-flow: column;
+      align-items: flex-start;
+      max-width: 100%;
+      font-size: 0.8em;
 
-    .month {
-      border: 0.1em solid #ccc;
-      width: 2em;
-      text-align: center;
-      &.isWeekEnd {
-        background: #eee;
+      .bars {
+        height: 10em;
+        position: relative;
+        .bar {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 1.5em;
+          height: 2em;
+          background: blue;
+        }
       }
-    }
 
-    .years {
-      display: flex;
-    }
+      .months {
+        display: flex;
+      }
 
-    .year {
-      border: 0.1em solid #ccc;
-      text-align: center;
+      .month {
+        border: 0.1em solid #ccc;
+        width: 2em;
+        text-align: center;
+        &.isWeekEnd {
+          background: #eee;
+        }
+      }
+
+      .years {
+        display: flex;
+      }
+
+      .year {
+        border: 0.1em solid #ccc;
+        text-align: center;
+      }
     }
   }
 }
