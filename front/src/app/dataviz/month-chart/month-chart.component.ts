@@ -15,6 +15,12 @@ interface IntervalStruct {
   label: string;
 }
 
+interface CsvRow {
+  month: string;
+  value: string;
+  color?: string;
+}
+
 const FORMAT = 'YYYYMM';
 
 @Component({
@@ -50,7 +56,7 @@ export class MonthChartComponent implements OnInit {
   }
 
   buildCalendar(): void {
-    const months = this.csv.data.map((d) => +d.month);
+    const months = this.csv.data.map(d => +d.month);
     this.begin = moment('' + Math.min(...months), FORMAT);
     const end = moment('' + Math.max(...months), FORMAT);
     const monthDuration = Math.ceil(
@@ -70,7 +76,8 @@ export class MonthChartComponent implements OnInit {
         width: `${monthInYear * 2}em`,
         label: iday.format('YYYY'),
       });
-      iday = iday.clone().add(1, 'year').month(0).days(3);
+      iday = iday.clone().add(1, 'year').month(0).dates(3);
+      console.log('iday: ', iday);
     }
     this.years[this.years.length - 1] = {
       width: `${(end.month() + 1) * 2}em`,
@@ -84,7 +91,9 @@ export class MonthChartComponent implements OnInit {
       '.bars'
     ) as HTMLElement).style.height = `${maxHeight + 2}em`;
 
-    const maxValue = Math.max(...this.csv.data.map((d) => +d.value));
+    const maxValue = Math.max(
+      ...((this.csv.data as unknown) as CsvRow[]).map(d => +d.value)
+    );
     this.scale = maxHeight / maxValue;
   }
 
@@ -94,9 +103,11 @@ export class MonthChartComponent implements OnInit {
     );
 
     const update = () => {
-      const feature = bars.selectAll('div.bar').data(this.csv.data);
+      const feature = bars
+        .selectAll('div.bar')
+        .data((this.csv.data as unknown) as CsvRow[]);
 
-      const transform = (d: d3.DSVRowString<string>) => {
+      const transform = (d: CsvRow) => {
         const months = Math.round(
           moment.duration(moment(d.month, FORMAT).diff(this.begin)).asMonths()
         );
@@ -107,11 +118,12 @@ export class MonthChartComponent implements OnInit {
         .enter()
         .append('div')
         .classed('bar', true)
-        .attr('title', (d) => d.value)
-        .style('background-color', (d) => d.color || this.color)
-        .style('height', (d) => {
+        .attr('title', d => `${d.month}: ${d.value}`)
+        .style('background-color', d => d.color || this.color)
+        .style('height', d => {
           console.log('d: ', d);
-          const value = Math.round(+d.value * this.scale * 1000) / 1000;
+          const offset = 1;
+          const value = offset + Math.round(+d.value * this.scale * 1000) / 1000;
           const result = value + 'em';
           console.log('result: ', result);
           return result;
