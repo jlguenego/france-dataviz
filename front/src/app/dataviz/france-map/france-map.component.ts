@@ -8,11 +8,18 @@ import {
 
 import * as L from 'leaflet';
 import * as d3 from 'd3';
-import { StateService } from 'src/app/state.service';
-import { ActivatedRoute } from '@angular/router';
-import { validURL } from 'src/app/misc';
 import { DatavizService } from 'src/app/dataviz.service';
 import { Csv } from 'src/app/csv';
+
+interface CsvRow {
+  latitude?: string;
+  longitude?: string;
+  LatLng?: L.LatLng;
+  zipcode: string;
+  label: string;
+  color?: string;
+  value?: string;
+}
 
 @Component({
   selector: 'app-france-map',
@@ -25,7 +32,7 @@ export class FranceMapComponent implements OnInit {
   csvContent: string;
   map: L.Map;
   svg: any;
-  data: any[];
+  data: CsvRow[];
   label = '';
 
   title = '';
@@ -33,9 +40,7 @@ export class FranceMapComponent implements OnInit {
 
   constructor(
     private elt: ElementRef,
-    private state: StateService,
     private dataviz: DatavizService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -70,9 +75,8 @@ export class FranceMapComponent implements OnInit {
 
       this.title = this.csv.getCommandValue('title') || this.title;
       this.color = this.csv.getCommandValue('color') || this.color;
-      const content = this.csv.getContent();
-      this.data = this.csv.data;
-      this.data.forEach((d: any) => {
+      this.data = this.csv.data as unknown as CsvRow[];
+      this.data.forEach(d => {
         if (!('latitude' in d)) {
           let place = this.dataviz.zipcodes.find(
             (place) => place.zipcode === d.zipcode
